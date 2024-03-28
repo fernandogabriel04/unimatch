@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:unimatch/styles/global.dart';
 
@@ -10,67 +12,58 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+class _HomePageState extends State<HomePage> {
 
-  bool screenOn = true;
-  AlignmentGeometry _alignment = Alignment.center;
-
-  @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
-    switch (state) {
-      case AppLifecycleState.resumed:
-        screenOn = true;
-        break;
-      case AppLifecycleState.inactive:
-        screenOn = false;
-        break;
-      case AppLifecycleState.paused:
-        screenOn = false;
-        break;
-      case AppLifecycleState.hidden:
-        break;
-      case AppLifecycleState.detached:
-        break;
-    }
-  }
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this); //Add an observer to the page when the user get into the page
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this); //Remove the added observer if its needed
-    super.dispose();
-  }
+  bool screenOn = false;
 
   @override
   Widget build(BuildContext context) {
-
-    if (screenOn) {
-      _alignment = Alignment.topCenter;
-    }
-
+    
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: AnimatedContainer(
-            alignment: _alignment,
-            duration: const Duration(seconds: 1),
-            curve: Curves.fastOutSlowIn,
-            child: SvgPicture.asset(
-              "./assets/Images/unimatch-logo.svg",
-              width: 386,
-              height: 20,
-              ),
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                screenOn = true;
+              });
+            },
+            child: Column(
+              children: [
+                Expanded(
+                  child: AnimatedContainer(
+                    alignment: screenOn? Alignment.topCenter: Alignment.bottomCenter,
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.fastOutSlowIn,
+                    child: SvgPicture.asset(
+                      "./assets/Images/unimatch-logo.svg",
+                      width: 386,
+                      height: 20,
+                      ),
+                  ),
+                ),
+                Expanded(
+                  child: AnimatedContainer(
+                    alignment: screenOn? Alignment.bottomCenter: Alignment.topCenter,
+                    curve: Curves.fastOutSlowIn,
+                    duration: const Duration(milliseconds: 500),
+                    child: AnimatedOpacity(
+                      opacity: screenOn? 0: 1,
+                      duration: const Duration( milliseconds: 500),
+                      child: const Text("Click to Start", style: TextStyle(
+                        color: MyColors.unimatchRed,
+                      ),),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
       backgroundColor: MyColors.unimatchBlack,
+      
     );
   }
 }
