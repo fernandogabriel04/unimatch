@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:unimatch/styles/global.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -6,25 +8,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('UNIMATCH'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Bem-vindo ao App UNIMATCH!',
-              style: TextStyle(fontSize: 24),
+      body: Container(
+        color: MyColors.unimatchBlack,
+        child: Center(
+          child: SvgPicture.asset(
+            "./assets/Images/unimatch-logo.svg",
+            height: double.infinity,
+            width: double.infinity,
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Adicione a ação que deseja executar quando o botão for pressionado
-              },
-              child: const Text('Clique Aqui'),
-            ),
-          ],
         ),
       ),
     );
