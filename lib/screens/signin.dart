@@ -15,20 +15,30 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
-  late bool startedApp;
-  late bool showLogin;
+  late bool startedApp; //changes when the user click on the app screen
+  late bool showLogin; //changes when the initial animation ends
+  late bool startAnimation; //changes when the TextFields and button are visible
+  final FocusNode myFocusNode = FocusNode(); //Init the app focus tree
 
   @override
-  void initState() {
+  void initState() { //init the variables
     super.initState();
-    startedApp = false;
+    startedApp = false; 
     showLogin = false;
+    startAnimation = false;
   }
 
-  void handleShowLogin() {
+  void handleShowLogin() { //change the "showLogin" property
     setState(() {
       showLogin = true;
     });
+  }
+
+  bool handleStartAnimation() { //change the "startAnimation" property and returns it
+    setState(() {
+      startAnimation = true;
+    });
+    return startAnimation;
   }
 
   @override
@@ -60,20 +70,30 @@ class _SignInState extends State<SignIn> {
                 ),
                 Visibility(
                   visible: showLogin,
-                  child: const Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 16),
-                          child: UniTextField(hintText: "CPF")
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 16),
-                          child: UniTextField(hintText: "SENHA")
-                        ),
-                        UniButton(btnText: "ENTRAR")
-                      ]
-                    )
+                  child: Focus(
+                    autofocus: true, //auto focus when its visible
+                    focusNode: myFocusNode,
+                    onFocusChange: (value) => handleStartAnimation(), //start the animation when the Widget is focused
+                    child: AnimatedOpacity(
+                      curve: Curves.linear,
+                      opacity: startAnimation? 1: 0,
+                      duration: const Duration(seconds: 1),
+                      child: const Expanded(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: UniTextField(hintText: "CPF")
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: UniTextField(hintText: "SENHA")
+                            ),
+                            UniButton(btnText: "ENTRAR")
+                          ]
+                        )
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
