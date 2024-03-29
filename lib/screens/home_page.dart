@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:unimatch/styles/global.dart';
+import 'package:unimatch/widgets/UniTextField.dart';
 
 //Turning HomePage State Less Widget into a State Full Widget
 class HomePage extends StatefulWidget {
@@ -18,7 +17,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -43,6 +41,28 @@ class _HomePageState extends State<HomePage> {
                       ),
                   ),
                 ),
+                if (screenOn) Expanded(
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 16),
+                        child: UniTextField(hintText: "CPF")
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 16),
+                        child: UniTextField(hintText: "SENHA")
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text("Login"),
+                        style: ButtonStyle(
+                          alignment: Alignment.center,
+                          backgroundColor: MaterialStateColor.resolveWith((states) => MyColors.unimatchRed),
+                        ),
+                        )
+                    ]
+                  )
+                ),
                 Expanded(
                   child: AnimatedContainer(
                     alignment: screenOn? Alignment.bottomCenter: Alignment.topCenter,
@@ -56,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                       ),),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
