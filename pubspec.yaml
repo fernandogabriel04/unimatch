@@ -38,10 +38,10 @@ flutter_native_splash:
   web: false
   fullscreen: true
   color: "#18181B"
-  image: assets/Images/UNIMATCH_SPLASH.png
+  image: assets/Images/unimatch-logo.png
   android_12:
     color: "#18181B"
-    image: assets/Images/UNIMATCH_SPLASH.png
+    image: assets/Images/unimatch-logo.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
