@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/UniButton.dart';
@@ -14,7 +15,21 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
-  bool screenOn = false;
+  late bool startedApp;
+  late bool showLogin;
+
+  @override
+  void initState() {
+    super.initState();
+    startedApp = false;
+    showLogin = false;
+  }
+
+  void handleShowLogin() {
+    setState(() {
+      showLogin = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +40,16 @@ class _SignInState extends State<SignIn> {
           child: GestureDetector(
             onTap: () {
               setState(() {
-                screenOn = true;
+                startedApp = true;
               });
             },
             child: Column(
               children: [
                 Expanded(
                   child: AnimatedContainer(
-                    alignment: screenOn? Alignment.topCenter: Alignment.bottomCenter,
+                    alignment: startedApp? Alignment.topCenter: Alignment.bottomCenter,
                     duration: const Duration(seconds: 1),
+                    onEnd: () => handleShowLogin(),
                     curve: Curves.fastOutSlowIn,
                     child: SvgPicture.asset(
                       "./assets/Images/unimatch-logo.svg",
@@ -42,28 +58,31 @@ class _SignInState extends State<SignIn> {
                       ),
                   ),
                 ),
-                if (screenOn) const Expanded(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 16),
-                        child: UniTextField(hintText: "CPF")
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 16),
-                        child: UniTextField(hintText: "SENHA")
-                      ),
-                      UniButton(btnText: "ENTRAR")
-                    ]
-                  )
+                Visibility(
+                  visible: showLogin,
+                  child: const Expanded(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: UniTextField(hintText: "CPF")
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: UniTextField(hintText: "SENHA")
+                        ),
+                        UniButton(btnText: "ENTRAR")
+                      ]
+                    )
+                  ),
                 ),
                 Expanded(
                   child: AnimatedContainer(
-                    alignment: screenOn? Alignment.bottomCenter: Alignment.topCenter,
+                    alignment: startedApp? Alignment.bottomCenter: Alignment.topCenter,
                     curve: Curves.fastOutSlowIn,
-                    duration: const Duration(milliseconds: 500),
+                    duration: const Duration(seconds: 1),
                     child: AnimatedOpacity(
-                      opacity: screenOn? 0: 1,
+                      opacity: startedApp? 0: 1,
                       duration: const Duration( milliseconds: 500),
                       child: const Text("Click to Start", style: TextStyle(
                         color: MyColors.unimatchRed,
