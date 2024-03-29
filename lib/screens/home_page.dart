@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:unimatch/styles/global.dart';
+import 'package:unimatch/widgets/UniButton.dart';
 import 'package:unimatch/widgets/UniTextField.dart';
 
 //Turning HomePage State Less Widget into a State Full Widget
@@ -41,25 +42,18 @@ class _HomePageState extends State<HomePage> {
                       ),
                   ),
                 ),
-                if (screenOn) Expanded(
+                if (screenOn) const Expanded(
                   child: Column(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(bottom: 16),
                         child: UniTextField(hintText: "CPF")
                       ),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(bottom: 16),
                         child: UniTextField(hintText: "SENHA")
                       ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text("Login"),
-                        style: ButtonStyle(
-                          alignment: Alignment.center,
-                          backgroundColor: MaterialStateColor.resolveWith((states) => MyColors.unimatchRed),
-                        ),
-                        )
+                      UniButton(btnText: "ENTRAR")
                     ]
                   )
                 ),
