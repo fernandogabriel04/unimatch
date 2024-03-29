@@ -4,15 +4,15 @@ import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/UniButton.dart';
 import 'package:unimatch/widgets/UniTextField.dart';
 
-//Turning HomePage State Less Widget into a State Full Widget
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+//Turning SignIn State Less Widget into a State Full Widget
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SignInState extends State<SignIn> {
 
   bool screenOn = false;
 
