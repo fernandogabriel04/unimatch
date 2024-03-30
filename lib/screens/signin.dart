@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unimatch/screens/home.dart';
@@ -8,6 +10,7 @@ import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_button.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 //Turning SignIn State Less Widget into a State Full Widget
 class SignIn extends StatefulWidget {
@@ -74,6 +77,12 @@ class _SignInState extends State<SignIn> {
     return startAnimation;
   }
 
+  Future<void> _launchInBrowserView(Uri url) async { //redirect the user to the following url page
+    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +130,21 @@ class _SignInState extends State<SignIn> {
                             padding: const EdgeInsets.only(bottom: 16),
                             child: UniTextField(hintText: "SENHA", controller: passTextFieldController,)
                           ),
-                          UniButton(btnText: "ENTRAR", onPress: () => userLogin()) //insert the controller in the password text field
+                          UniButton(btnText: "ENTRAR", onPress: () => userLogin()), //insert the controller in the password text field
+                          Padding(
+                            padding: const EdgeInsets.only(top: 32),
+                            child: RichText(text: TextSpan(text: "Use as credenciais do site ", style: const TextStyle(
+                              color: MyColors.unimatchWhite
+                            ), children: [
+                              TextSpan(text: "Portal do Aluno", style: const TextStyle(
+                                color: MyColors.unimatchRed
+                              ),
+                              recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                _launchInBrowserView(Uri.parse('https://portalaluno.afya.com.br/web/app/edu/PortalEducacional/login/'));
+                              }),
+                            ])),
+                          )
                         ]
                       ),
                     ),
@@ -147,7 +170,6 @@ class _SignInState extends State<SignIn> {
         ),
       ),
       backgroundColor: MyColors.unimatchBlack,
-      
     );
   }
 }
