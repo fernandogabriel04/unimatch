@@ -3,8 +3,8 @@ import 'package:unimatch/styles/global.dart';
 
 class UniButton extends StatefulWidget {
 
-  final String btnText;
-  final void Function() onPress;
+  final String btnText; //Changes the button text
+  final void Function() onPress; //onPress function as a parameter
 
   const UniButton({
     super.key,
@@ -23,7 +23,7 @@ class _UniButtonState extends State<UniButton> {
       width: double.infinity,
       height: 48,
       child: TextButton(
-        onPressed: widget.onPress,
+        onPressed: widget.onPress, //Receive the onPress function
         style: ButtonStyle(
           alignment: Alignment.center,
           backgroundColor: MaterialStateColor.resolveWith((states) => MyColors.unimatchRed),

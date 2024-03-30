@@ -18,8 +18,8 @@ class _SignInState extends State<SignIn> {
   late bool showLogin; //changes when the initial animation ends
   late bool startAnimation; //changes when the TextFields and button are visible
   final FocusNode myFocusNode = FocusNode(); //Init the app focus tree
-  final TextEditingController userTextFieldController = TextEditingController();
-  final TextEditingController passTextFieldController = TextEditingController();
+  final TextEditingController userTextFieldController = TextEditingController(); //controller to user text field
+  final TextEditingController passTextFieldController = TextEditingController(); //controller to password text field
 
   @override
   void initState() { //init the variables
@@ -83,14 +83,14 @@ class _SignInState extends State<SignIn> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(bottom: 16),
-                              child: UniTextField(hintText: "CPF", controller: userTextFieldController)
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: UniTextField(hintText: "CPF", controller: userTextFieldController) //insert the controller into user text field
                             ),
                             Padding(
-                              padding: EdgeInsets.only(bottom: 16),
+                              padding: const EdgeInsets.only(bottom: 16),
                               child: UniTextField(hintText: "SENHA", controller: passTextFieldController,)
                             ),
-                            UniButton(btnText: "ENTRAR", onPress: () => print(passTextFieldController.text),)
+                            UniButton(btnText: "ENTRAR", onPress: () => print(passTextFieldController.text),) //insert the controller in the password text field
                           ]
                         )
                       ),

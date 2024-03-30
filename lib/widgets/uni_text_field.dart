@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:unimatch/styles/global.dart';
 
 class UniTextField extends StatefulWidget {
-  final String hintText;
-  final bool isRequired;
-  final TextEditingController? controller;
+  final String hintText; //Changes the hintText field
+  final bool isRequired; //Verify if the textField is required or not
+  final TextEditingController? controller; //Controller to textFields
 
   const UniTextField({
     super.key,
@@ -25,18 +25,18 @@ class _UniTextFieldState extends State<UniTextField> {
       onSubmitted: (value) {
         
       },
-      controller: widget.controller,
+      controller: widget.controller, //Receive the controller as a parameter
       style: const TextStyle(
         color: MyColors.unimatchWhite
       ),
       decoration: InputDecoration(
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(16))),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: MyColors.unimatchRed)
         ),
         hintText: widget.hintText,
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: MyColors.unimatchGray
         )
       )
