@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unimatch/screens/signin.dart';
 
 void main(){
@@ -10,7 +11,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      builder: FToastBuilder(),
       debugShowCheckedModeBanner: false,
       home: SignIn(),
     );

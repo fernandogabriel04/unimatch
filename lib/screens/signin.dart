@@ -22,20 +22,13 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
-  late bool startedApp; //changes when the user click on the app screen
-  late bool showLogin; //changes when the initial animation ends
-  late bool startAnimation; //changes when the TextFields and button are visible
+  late bool startedApp = false; //changes when the user click on the app screen
+  late bool showLogin = false; //changes when the initial animation ends
+  late bool startAnimation = false; //changes when the TextFields and button are visible
   final FocusNode myFocusNode = FocusNode(); //Init the app focus tree
   final TextEditingController userTextFieldController = TextEditingController(); //controller to user text field
   final TextEditingController passTextFieldController = TextEditingController(); //controller to password text field
-
-  @override
-  void initState() { //init the variables
-    super.initState();
-    startedApp = false; 
-    showLogin = false;
-    startAnimation = false;
-  }
+  FToast fToast = FToast();
 
   void handleShowLogin() { //change the "showLogin" property
     setState(() {
@@ -59,15 +52,7 @@ class _SignInState extends State<SignIn> {
     response.body.contains("Object moved")? Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const Home())
-    ): Fluttertoast.showToast(
-        msg: "Usuário ou senha inválidos!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: MyColors.unimatchSemiBlack,
-        textColor: MyColors.unimatchRed,
-        fontSize: 16.0
-    );
+    ): _showToast("Usuário ou senha inválidos!");
   }
 
   bool handleStartAnimation() { //change the "startAnimation" property and returns it
@@ -83,8 +68,36 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  _showToast(String text) {
+    Widget signinToast = Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: MyColors.unimatchRed,
+        ),
+        child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+            const Icon(Icons.error),
+            const SizedBox(
+            width: 12.0,
+            ),
+            Text(text),
+        ],
+        ),
+    );
+
+
+    fToast.showToast(
+        child: signinToast,
+        gravity: ToastGravity.TOP,
+        toastDuration: const Duration(seconds: 2),
+    );
+}
+
   @override
   Widget build(BuildContext context) {
+    fToast.init(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
