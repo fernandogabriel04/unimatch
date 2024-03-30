@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:unimatch/screens/home.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_button.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
+import 'package:http/http.dart' as http;
 
 //Turning SignIn State Less Widget into a State Full Widget
 class SignIn extends StatefulWidget {
@@ -33,6 +38,33 @@ class _SignInState extends State<SignIn> {
     setState(() {
       showLogin = true;
     });
+  }
+
+  void userLogin() async {
+    var response = await http.post(
+      Uri.parse("https://academico.afya.com.br/Corpore.Net//Source/EDU-EDUCACIONAL/Public/EduPortalAlunoLogin.aspx?AutoLoginType=ExternalLogin&redirect=calendario"), 
+      body: Uri.encodeFull(
+        "User=${userTextFieldController.text}&Pass=${passTextFieldController.text}&Alias=CorporeRM"
+        ),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json"
+      },
+      encoding: Encoding.getByName('utf-8'),
+    );
+
+    response.body.contains("Object moved")? Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home())
+    ): Fluttertoast.showToast(
+        msg: "Usuário ou senha inválidos!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: MyColors.unimatchSemiBlack,
+        textColor: MyColors.unimatchRed,
+        fontSize: 16.0
+    );
   }
 
   bool handleStartAnimation() { //change the "startAnimation" property and returns it
@@ -79,20 +111,18 @@ class _SignInState extends State<SignIn> {
                       curve: Curves.linear,
                       opacity: startAnimation? 1: 0,
                       duration: const Duration(seconds: 1),
-                      child: Expanded(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: UniTextField(hintText: "CPF", controller: userTextFieldController) //insert the controller into user text field
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
-                              child: UniTextField(hintText: "SENHA", controller: passTextFieldController,)
-                            ),
-                            UniButton(btnText: "ENTRAR", onPress: () => print(passTextFieldController.text),) //insert the controller in the password text field
-                          ]
-                        )
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: UniTextField(hintText: "CPF", controller: userTextFieldController) //insert the controller into user text field
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: UniTextField(hintText: "SENHA", controller: passTextFieldController,)
+                          ),
+                          UniButton(btnText: "ENTRAR", onPress: () => userLogin()) //insert the controller in the password text field
+                        ]
                       ),
                     ),
                   ),
