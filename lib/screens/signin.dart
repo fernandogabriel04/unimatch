@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:unimatch/screens/home.dart';
+import 'package:unimatch/services/firebase.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_button.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
@@ -37,6 +38,7 @@ class _SignInState extends State<SignIn> {
   }
 
   void userLogin() async {
+    final authService = Provider.of<AuthService>(context, listen: false);
     var response = await http.post(
       Uri.parse("https://academico.afya.com.br/Corpore.Net//Source/EDU-EDUCACIONAL/Public/EduPortalAlunoLogin.aspx?AutoLoginType=ExternalLogin&redirect=calendario"), 
       body: Uri.encodeFull(
@@ -49,10 +51,12 @@ class _SignInState extends State<SignIn> {
       encoding: Encoding.getByName('utf-8'),
     );
 
-    response.body.contains("Object moved")? Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Home())
-    ): _showToast("Usuário ou senha inválidos!");
+    response.body.contains("Object moved")? {
+        Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Home())),
+        authService.getUsers(userTextFieldController.text)
+    }: _showToast("Usuário ou senha inválidos!");
   }
 
   bool handleStartAnimation() { //change the "startAnimation" property and returns it
