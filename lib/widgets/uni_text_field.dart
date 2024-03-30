@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:unimatch/styles/global.dart';
 
 class UniTextField extends StatefulWidget {
-  final String hintText; //Changes the hintText field
+  final String hintText;
+  final bool hideText; //Changes the hintText field
   final bool isRequired; //Verify if the textField is required or not
   final TextEditingController? controller; //Controller to textFields
 
@@ -10,21 +11,20 @@ class UniTextField extends StatefulWidget {
     super.key,
     required this.hintText,
     this.isRequired = false,
-    this.controller
+    this.controller,
+    this.hideText = false
     });
 
   @override
   State<UniTextField> createState() => _UniTextFieldState();
 }
 
-class _UniTextFieldState extends State<UniTextField> {
+class _UniTextFieldState extends State<UniTextField>{
   @override
   Widget build(BuildContext context) {
     return TextField(
       cursorColor: MyColors.unimatchRed,
-      onSubmitted: (value) {
-        
-      },
+      obscureText: widget.hideText,
       controller: widget.controller, //Receive the controller as a parameter
       style: const TextStyle(
         color: MyColors.unimatchWhite

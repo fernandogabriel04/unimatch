@@ -68,7 +68,7 @@ class _SignInState extends State<SignIn> {
     }
   }
 
-  _showToast(String text) {
+  _showToast(String text) { //function to show toast on the page
     Widget signinToast = Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
         decoration: BoxDecoration(
@@ -141,7 +141,7 @@ class _SignInState extends State<SignIn> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 16),
-                            child: UniTextField(hintText: "SENHA", controller: passTextFieldController,)
+                            child: UniTextField(hintText: "SENHA", controller: passTextFieldController, hideText: true)
                           ),
                           UniButton(btnText: "ENTRAR", onPress: () => userLogin()), //insert the controller in the password text field
                           Padding(
