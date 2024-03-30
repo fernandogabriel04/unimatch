@@ -4,11 +4,13 @@ import 'package:unimatch/styles/global.dart';
 class UniTextField extends StatefulWidget {
   final String hintText;
   final bool isRequired;
+  final TextEditingController? controller;
 
   const UniTextField({
     super.key,
     required this.hintText,
     this.isRequired = false,
+    this.controller
     });
 
   @override
@@ -23,6 +25,7 @@ class _UniTextFieldState extends State<UniTextField> {
       onSubmitted: (value) {
         
       },
+      controller: widget.controller,
       style: const TextStyle(
         color: MyColors.unimatchWhite
       ),

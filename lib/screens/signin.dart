@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:unimatch/styles/global.dart';
-import 'package:unimatch/widgets/UniButton.dart';
-import 'package:unimatch/widgets/UniTextField.dart';
+import 'package:unimatch/widgets/uniButton.dart';
+import 'package:unimatch/widgets/uni_text_field.dart';
 
 //Turning SignIn State Less Widget into a State Full Widget
 class SignIn extends StatefulWidget {
@@ -19,6 +18,8 @@ class _SignInState extends State<SignIn> {
   late bool showLogin; //changes when the initial animation ends
   late bool startAnimation; //changes when the TextFields and button are visible
   final FocusNode myFocusNode = FocusNode(); //Init the app focus tree
+  final TextEditingController userTextFieldController = TextEditingController();
+  final TextEditingController passTextFieldController = TextEditingController();
 
   @override
   void initState() { //init the variables
@@ -78,18 +79,18 @@ class _SignInState extends State<SignIn> {
                       curve: Curves.linear,
                       opacity: startAnimation? 1: 0,
                       duration: const Duration(seconds: 1),
-                      child: const Expanded(
+                      child: Expanded(
                         child: Column(
                           children: [
                             Padding(
                               padding: EdgeInsets.only(bottom: 16),
-                              child: UniTextField(hintText: "CPF")
+                              child: UniTextField(hintText: "CPF", controller: userTextFieldController)
                             ),
                             Padding(
                               padding: EdgeInsets.only(bottom: 16),
-                              child: UniTextField(hintText: "SENHA")
+                              child: UniTextField(hintText: "SENHA", controller: passTextFieldController,)
                             ),
-                            UniButton(btnText: "ENTRAR")
+                            UniButton(btnText: "ENTRAR", onPress: () => print(passTextFieldController.text),)
                           ]
                         )
                       ),
@@ -104,7 +105,7 @@ class _SignInState extends State<SignIn> {
                     child: AnimatedOpacity(
                       opacity: startedApp? 0: 1,
                       duration: const Duration( milliseconds: 500),
-                      child: const Text("Click to Start", style: TextStyle(
+                      child: const Text("Toque para iniciar", style: TextStyle(
                         color: MyColors.unimatchRed,
                       ),),
                     ),
