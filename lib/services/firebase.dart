@@ -10,13 +10,15 @@ class AuthService extends ChangeNotifier {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   Reference firebaseStorageRootReference = FirebaseStorage.instance.ref();
   late String imageUrl;
+  late Map<String, dynamic> userData;
 
   Map<String, dynamic>? getUsers(String cpf) { //get the users in the firestore bd
     final usersRef = _fireStore.collection("users").doc(cpf);
     usersRef.get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
-        return {...data};
+        userData = data;
+        return {...userData};
       },
       onError: (e) => {
         throw e
@@ -31,12 +33,12 @@ class AuthService extends ChangeNotifier {
   }
 
   bool verifyUserExistsOnFirebase(String cpf) {
-    final Map<String, dynamic> blankUserData = {"name": "", "age": "", "userImg": "", "address": ""};
+    final Map<String, dynamic> blankUserData = {"cpf": "", "name": "", "age": "", "userImg": "", "address": ""};
     final userData = getUsers(cpf);
     if (userData != null && userData.isNotEmpty) {
       return true;
     } else {
-      postUsers(blankUserData, cpf);
+      postUsers({...blankUserData, "cpf": cpf, "userImg": "/o/user_images%2FblankUser.png?alt=media&token=39cade3b-03f9-4f39-817e-837ce7cf738b"}, cpf);
       return false;
     }
   }
@@ -51,10 +53,11 @@ class AuthService extends ChangeNotifier {
 
     String uniqueFileName = "${DateTime.now().millisecondsSinceEpoch.toString()}${file.name}";
 
-    Reference referenceImageToUpload = referenceFirebaseDirImages.child(file.name);
+    Reference referenceImageToUpload = referenceFirebaseDirImages.child(uniqueFileName);
     try {
       await referenceImageToUpload.putFile(File(file.path));
       imageUrl = await referenceImageToUpload.getDownloadURL();
+      print(imageUrl);
     } catch(e) {
       rethrow;
     }
