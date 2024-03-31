@@ -12,10 +12,10 @@ class UserCreation extends StatefulWidget {
 
 class _UserCreationState extends State<UserCreation> {
   AuthService authService = AuthService();
-  late UserDataModel<dynamic>? userData = UserDataModel<dynamic>.fromMap({});
+  UserDataModel<dynamic>? userData = UserDataModel<dynamic>();
   @override
   Widget build(BuildContext context) {
-    userData = authService.userData;
+    userData = authService.getUsers("11470459418");
     return Scaffold(
       backgroundColor: MyColors.unimatchBlack,
       body: SafeArea(

@@ -12,22 +12,21 @@ class AuthService extends ChangeNotifier {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   Reference firebaseStorageRootReference = FirebaseStorage.instance.ref();
   late String imageUrl;
-  late UserDataModel<dynamic> userData;
+  UserDataModel<dynamic>? userData;
 
-  Map<String, dynamic> getUsers(String cpf) { //get the users in the firestore bd
-    final usersRef = _fireStore.collection("users").doc(cpf);
-    usersRef.get().then(
-      (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>?;
-        if (data == null) return null;
-        userData = UserDataModel<dynamic>.fromMap(data);
-        return userData;
-      },
-      onError: (e) => {
-        throw e
-        }
+  UserDataModel<dynamic>? getUsers(String cpf) { //get the users in the firestore bd
+  final usersRef = _fireStore.collection("users").doc(cpf);
+  usersRef.get().then(
+    (DocumentSnapshot doc) {
+      final data = doc.data() as Map<String, dynamic>?;
+      if (data == null) return null;
+      return userData = UserDataModel<dynamic>.fromMap(data);
+    },
+    onError: (e) => {
+      throw e
+      }
     );
-    return userData.toMap();
+    return userData;
   }
 
   void postUsers(UserDataModel<dynamic> data, String cpf) {
@@ -40,8 +39,11 @@ class AuthService extends ChangeNotifier {
 
     final UserDataModel<dynamic> blankUserData = UserDataModel<dynamic>.fromMap(blankUserDataModel);
 
-    userData = UserDataModel<dynamic>.fromMap(getUsers(cpf));
-    if (userData.toMap().isNotEmpty) {
+    userData = getUsers(cpf);
+
+    print("${userData!.toMap()} ------ SOU EU");
+
+    if (userData != null) {
       return true;
     } else {
       postUsers(blankUserData, cpf);

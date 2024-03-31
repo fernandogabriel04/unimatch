@@ -6,11 +6,11 @@ class UserDataModel<T> {
   T? address;
 
   UserDataModel({
-    required this.cpf,
-    required this.name,
-    required this.age,
-    required this.userImg,
-    required this.address,
+    this.cpf,
+    this.name,
+    this.age,
+    this.userImg,
+    this.address,
   });
 
   factory UserDataModel.fromMap(Map<String, T> data) {
