@@ -5,41 +5,46 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:unimatch/models/user_data_model.dart';
 
 class AuthService extends ChangeNotifier {
   //instance of firestore
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   Reference firebaseStorageRootReference = FirebaseStorage.instance.ref();
   late String imageUrl;
-  late Map<String, dynamic> userData;
+  late UserDataModel<dynamic> userData;
 
-  Map<String, dynamic>? getUsers(String cpf) { //get the users in the firestore bd
+  Map<String, dynamic> getUsers(String cpf) { //get the users in the firestore bd
     final usersRef = _fireStore.collection("users").doc(cpf);
     usersRef.get().then(
       (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        userData = data;
-        return {...userData};
+        final data = doc.data() as Map<String, dynamic>?;
+        if (data == null) return null;
+        userData = UserDataModel<dynamic>.fromMap(data);
+        return userData;
       },
       onError: (e) => {
         throw e
         }
     );
-    return null;
+    return userData.toMap();
   }
 
-  void postUsers(Map<String, dynamic> data, String cpf) {
+  void postUsers(UserDataModel<dynamic> data, String cpf) {
     final usersRef = _fireStore.collection("users").doc(cpf);
-    usersRef.set(data);
+    usersRef.set(data.toMap());
   }
 
   bool verifyUserExistsOnFirebase(String cpf) {
-    final Map<String, dynamic> blankUserData = {"cpf": "", "name": "", "age": "", "userImg": "", "address": ""};
-    final userData = getUsers(cpf);
-    if (userData != null && userData.isNotEmpty) {
+    final Map<String, dynamic> blankUserDataModel = {"cpf": cpf, "name": "", "age": "", "userImg": "${dotenv.env["DATABASE_URL"]}/o/user_images%2FblankUser.png?alt=media&token=${dotenv.env["TOKEN"]}", "address": ""};
+
+    final UserDataModel<dynamic> blankUserData = UserDataModel<dynamic>.fromMap(blankUserDataModel);
+
+    userData = UserDataModel<dynamic>.fromMap(getUsers(cpf));
+    if (userData.toMap().isNotEmpty) {
       return true;
     } else {
-      postUsers({...blankUserData, "cpf": cpf, "userImg": "${dotenv.env['DATABASE_URL']}/o/user_images%2FblankUser.png?alt=media&token=${dotenv.env["TOKEN"]}"}, cpf);
+      postUsers(blankUserData, cpf);
       return false;
     }
   }
