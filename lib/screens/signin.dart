@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:unimatch/screens/home.dart';
+import 'package:unimatch/screens/user_creation.dart';
 import 'package:unimatch/services/firebase.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_button.dart';
@@ -52,10 +53,15 @@ class _SignInState extends State<SignIn> {
     );
 
     response.body.contains("Object moved")? {
-        Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Home())),
-        authService.getUsers(userTextFieldController.text)
+        if (authService.verifyUserExistsOnFirebase(userTextFieldController.text)) {
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Home())),
+        } else {
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const UserCreation())),
+        }
     }: _showToast("Usuário ou senha inválidos!");
   }
 
