@@ -9,10 +9,10 @@ import 'package:unimatch/screens/home.dart';
 import 'package:unimatch/screens/user_creation.dart';
 import 'package:unimatch/services/firebase.dart';
 import 'package:unimatch/styles/global.dart';
+import 'package:unimatch/utils/utils.dart';
 import 'package:unimatch/widgets/uni_button.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 
 //Turning SignIn State Less Widget into a State Full Widget
 class SignIn extends StatefulWidget {
@@ -70,12 +70,6 @@ class _SignInState extends State<SignIn> {
       startAnimation = true;
     });
     return startAnimation;
-  }
-
-  Future<void> _launchInBrowserView(Uri url) async { //redirect the user to the following url page
-    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-      throw Exception('Could not launch $url');
-    }
   }
 
   _showToast(String text) { //function to show toast on the page
@@ -165,7 +159,7 @@ class _SignInState extends State<SignIn> {
                               ),
                               recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                _launchInBrowserView(Uri.parse('https://portalaluno.afya.com.br/web/app/edu/PortalEducacional/login/'));
+                                launchInBrowserView(Uri.parse('https://portalaluno.afya.com.br/web/app/edu/PortalEducacional/login/'));
                               }),
                             ])),
                           )
