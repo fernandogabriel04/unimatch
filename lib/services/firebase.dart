@@ -29,19 +29,17 @@ class AuthService extends ChangeNotifier {
     return userData;
   }
 
-  void postUsers(UserDataModel<dynamic> data, String cpf) {
+  void postUsers(UserDataModel<dynamic> data, String cpf) { //post the user in firestore bd
     final usersRef = _fireStore.collection("users").doc(cpf);
     usersRef.set(data.toMap());
   }
 
-  bool verifyUserExistsOnFirebase(String cpf) {
+  bool verifyUserExistsOnFirebase(String cpf) { //verify if user exists in firestore bd
     final Map<String, dynamic> blankUserDataModel = {"cpf": cpf, "name": "", "age": "", "userImg": "${dotenv.env["DATABASE_URL"]}/o/user_images%2FblankUser.png?alt=media&token=${dotenv.env["TOKEN"]}", "address": ""};
 
     final UserDataModel<dynamic> blankUserData = UserDataModel<dynamic>.fromMap(blankUserDataModel);
 
     userData = getUsers(cpf);
-
-    print("${userData!.toMap()} ------ SOU EU");
 
     if (userData != null) {
       if (userData.toString() == blankUserData.toString()) {
@@ -54,7 +52,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  void sendImageToStorage() async {
+  void sendImageToStorage() async { //send image to firebase cloud and store its URL in firestore bd
     final ImagePicker imagePicker = ImagePicker();
     final XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
 
