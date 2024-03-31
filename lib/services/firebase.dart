@@ -27,4 +27,20 @@ class AuthService extends ChangeNotifier {
     return null;
   }
 
+  void postUsers(Map<String, dynamic> data, String cpf) {
+    final usersRef = _fireStore.collection("users").doc(cpf);
+    usersRef.set(data);
+  }
+
+  bool verifyUserExistsOnFirebase(String cpf) {
+    final Map<String, dynamic> blankUserData = {"name": "", "age": "", "userImg": "", "address": ""};
+    final userData = getUsers(cpf);
+    if (userData != null && userData.isNotEmpty) {
+      return true;
+    } else {
+      postUsers(blankUserData, cpf);
+      return false;
+    }
+  }
+
 }
