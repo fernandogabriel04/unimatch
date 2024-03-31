@@ -15,7 +15,7 @@ class _UserCreationState extends State<UserCreation> {
   UserDataModel<dynamic>? userData = UserDataModel<dynamic>();
   @override
   Widget build(BuildContext context) {
-    userData = authService.getUsers("11470459418");
+    userData = authService.userData;
     return Scaffold(
       backgroundColor: MyColors.unimatchBlack,
       body: SafeArea(
@@ -23,10 +23,10 @@ class _UserCreationState extends State<UserCreation> {
           padding: const EdgeInsets.all(8),
           child: Column(
             children: [
+              Image.network(userData!.userImg),
               IconButton(
                 onPressed: () async {
                   authService.sendImageToStorage();
-                  print(userData!.cpf);
                 },
                 icon: Icon(Icons.camera_alt),
               ),
