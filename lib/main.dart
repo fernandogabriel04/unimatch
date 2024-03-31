@@ -1,3 +1,4 @@
+import 'package:dotenv/dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,6 +10,7 @@ import 'package:unimatch/services/firebase.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); //verify the current user platform
+  DotEnv();
   runApp(const App());
 }
 
