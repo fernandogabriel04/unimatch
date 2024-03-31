@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AuthService extends ChangeNotifier {
@@ -38,7 +39,7 @@ class AuthService extends ChangeNotifier {
     if (userData != null && userData.isNotEmpty) {
       return true;
     } else {
-      postUsers({...blankUserData, "cpf": cpf, "userImg": "/o/user_images%2FblankUser.png?alt=media&token=39cade3b-03f9-4f39-817e-837ce7cf738b"}, cpf);
+      postUsers({...blankUserData, "cpf": cpf, "userImg": "${dotenv.env['DATABASE_URL']}/o/user_images%2FblankUser.png?alt=media&token=${dotenv.env["TOKEN"]}"}, cpf);
       return false;
     }
   }
@@ -57,7 +58,6 @@ class AuthService extends ChangeNotifier {
     try {
       await referenceImageToUpload.putFile(File(file.path));
       imageUrl = await referenceImageToUpload.getDownloadURL();
-      print(imageUrl);
     } catch(e) {
       rethrow;
     }

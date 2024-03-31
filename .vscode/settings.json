@@ -2,10 +2,12 @@
     "cSpell.words": [
         "autofocus",
         "cupertino",
+        "dotenv",
         "firestore",
         "Fluttertoast",
         "fullscreen",
         "Schyler",
+        "signin",
         "unimatch"
     ]
 }
