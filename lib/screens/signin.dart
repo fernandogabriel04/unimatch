@@ -109,6 +109,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     fToast.init(context);
     return Scaffold(
+      backgroundColor: MyColors.unimatchBlack,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -192,7 +193,6 @@ class _SignInState extends State<SignIn> {
           ),
         ),
       ),
-      backgroundColor: MyColors.unimatchBlack,
     );
   }
 }
