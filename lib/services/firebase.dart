@@ -44,6 +44,9 @@ class AuthService extends ChangeNotifier {
     print("${userData!.toMap()} ------ SOU EU");
 
     if (userData != null) {
+      if (userData.toString() == blankUserData.toString()) {
+        return false;
+      }
       return true;
     } else {
       postUsers(blankUserData, cpf);
