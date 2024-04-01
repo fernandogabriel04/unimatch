@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:unimatch/firebase_options.dart';
+import 'package:unimatch/screens/home_page.dart';
 import 'package:unimatch/screens/signin.dart';
 import 'package:unimatch/services/firebase.dart';
+import 'package:unimatch/styles/global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,11 +20,18 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: MyColors.unimatchBlack,
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: MyColors.unimatchBlack,
+        ),
+      ),
+      title: 'UNIMATCH',
       builder: FToastBuilder(),
       debugShowCheckedModeBanner: false,
       home: ChangeNotifierProvider(
         create: (context) => AuthService(),
-        child: SignIn()
+        child: SignIn(),
       ),
     );
   }
