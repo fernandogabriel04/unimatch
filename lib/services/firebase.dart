@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unimatch/models/user_data_model.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthService extends ChangeNotifier {
   //instance of firestore
