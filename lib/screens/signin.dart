@@ -1,21 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
-import 'package:unimatch/screens/home_page.dart';
-import 'package:unimatch/screens/user_creation.dart';
-import 'package:unimatch/services/firebase.dart';
+import 'package:unimatch/screens/register.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_button.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
-import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
 
 //Turning SignIn State Less Widget into a State Full Widget
 class SignIn extends StatefulWidget {
+
   const SignIn({super.key});
 
   @override
@@ -23,11 +17,9 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
-  late bool startedApp = false; //changes when the user click on the app screen
-  late bool showLogin = false; //changes when the initial animation ends
-  late bool startAnimation = false; //changes when the TextFields and button are visible
-  final FocusNode myFocusNode = FocusNode(); //Init the app focus tree
+  bool startedApp = false; //changes when the user click on the app screen
+  bool showLogin = false; //changes when the initial animation ends
+  bool startAnimation = false; //changes when the TextFields and button are visible
   final TextEditingController userTextFieldController = TextEditingController(); //controller to user text field
   final TextEditingController passTextFieldController = TextEditingController(); //controller to password text field
   FToast fToast = FToast();
@@ -38,33 +30,6 @@ class _SignInState extends State<SignIn> {
     });
   }
 
-  void userLogin() async {
-    final authService = Provider.of<AuthService>(context, listen: false);
-    var response = await http.post(
-      Uri.parse("https://academico.afya.com.br/Corpore.Net//Source/EDU-EDUCACIONAL/Public/EduPortalAlunoLogin.aspx?AutoLoginType=ExternalLogin&redirect=calendario"), 
-      body: Uri.encodeFull(
-        "User=${userTextFieldController.text}&Pass=${passTextFieldController.text}&Alias=CorporeRM"
-        ),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json"
-      },
-      encoding: Encoding.getByName('utf-8'),
-    );
-
-    response.body.contains("Object moved")? {
-        if (authService.verifyUserExistsOnFirebase(userTextFieldController.text)) {
-          Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage())),
-        } else {
-          Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const UserCreation())),
-        }
-    }: _showToast("Usuário ou senha inválidos!");
-  }
-
   bool handleStartAnimation() { //change the "startAnimation" property and returns it
     setState(() {
       startAnimation = true;
@@ -72,10 +37,8 @@ class _SignInState extends State<SignIn> {
     return startAnimation;
   }
 
-  Future<void> _launchInBrowserView(Uri url) async { //redirect the user to the following url page
-    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-      throw Exception('Could not launch $url');
-    }
+  void login() {
+
   }
 
   _showToast(String text) { //function to show toast on the page
@@ -138,7 +101,6 @@ class _SignInState extends State<SignIn> {
                   visible: showLogin,
                   child: Focus(
                     autofocus: true, //auto focus when its visible
-                    focusNode: myFocusNode,
                     onFocusChange: (value) => handleStartAnimation(), //start the animation when the Widget is focused
                     child: AnimatedOpacity(
                       curve: Curves.linear,
@@ -154,19 +116,19 @@ class _SignInState extends State<SignIn> {
                             padding: const EdgeInsets.only(bottom: 16),
                             child: UniTextField(hintText: "SENHA", controller: passTextFieldController, hideText: true)
                           ),
-                          UniButton(btnText: "ENTRAR", onPress: () => userLogin()), //insert the controller in the password text field
+                          UniButton(btnText: "ENTRAR", onPress: () => login()), //insert the controller in the password text field
                           Padding(
                             padding: const EdgeInsets.only(top: 32),
-                            child: RichText(text: TextSpan(text: "Use as credenciais do site ", style: const TextStyle(
+                            child: RichText(text: TextSpan(text: "Ainda não possui uma conta? ", style: const TextStyle(
                               color: MyColors.unimatchWhite
                             ), children: [
-                              TextSpan(text: "Portal do Aluno", style: const TextStyle(
+                              TextSpan(text: "Registrar", style: const TextStyle(
                                 color: MyColors.unimatchRed
                               ),
                               recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                _launchInBrowserView(Uri.parse('https://portalaluno.afya.com.br/web/app/edu/PortalEducacional/login/'));
-                              }),
+                              ..onTap = () => Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => const Register() )
+                              )),
                             ])),
                           )
                         ]

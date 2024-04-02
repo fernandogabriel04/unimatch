@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,16 +49,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDX4hz2_j6WlB95v0JuGJ4fBf0fJxpJadU',
-    appId: '1:19311624947:web:44cfe7038953ace4942d86',
-    messagingSenderId: '19311624947',
-    projectId: 'unimatch-6283a',
-    authDomain: 'unimatch-6283a.firebaseapp.com',
-    storageBucket: 'unimatch-6283a.appspot.com',
-    measurementId: 'G-D9NCHQNT07',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDqpsHWUFgiufUveq7IRokavbH8ctemCYQ',
     appId: '1:19311624947:android:de1f7351207d1f71942d86',
@@ -68,14 +64,5 @@ class DefaultFirebaseOptions {
     projectId: 'unimatch-6283a',
     storageBucket: 'unimatch-6283a.appspot.com',
     iosBundleId: 'com.example.unimatch',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAo0ZTKEDUpstnCDeZV30tkbXC_ogjdY9o',
-    appId: '1:19311624947:ios:8010a76f792ef277942d86',
-    messagingSenderId: '19311624947',
-    projectId: 'unimatch-6283a',
-    storageBucket: 'unimatch-6283a.appspot.com',
-    iosBundleId: 'com.example.unimatch.RunnerTests',
   );
 }
