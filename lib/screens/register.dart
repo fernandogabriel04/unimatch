@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:unimatch/helpers/toasts.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_button.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
@@ -17,12 +18,15 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
 
-  late bool startAnimation = false; //changes when the TextFields and button are visible
+  bool startAnimation = false; //changes when the TextFields and button are visible
+  bool isLoading = false;
+
   final TextEditingController nameTextFieldController = TextEditingController(); //controller to user text field
-  final TextEditingController emailTextFieldController = TextEditingController(); //controller to password text field
+  final TextEditingController emailTextFieldController = TextEditingController(); //controller to email text field
   final TextEditingController passTextFieldController = TextEditingController(); //controller to password text field
-  final TextEditingController confirmPassTextFieldController = TextEditingController(); //controller to password text field
-  FToast fToast = FToast();
+  final TextEditingController confirmPassTextFieldController = TextEditingController(); //controller to confirm password text field
+  final Toasts toasts = Toasts(); //instance of Toasts Widgets class
+  FToast fToast = FToast(); //instance of fToast - flutter toast
 
   bool handleStartAnimation() { //change the "startAnimation" property and returns it
     setState(() {
@@ -31,36 +35,26 @@ class _RegisterState extends State<Register> {
     return startAnimation;
   }
 
-  void register() {
-
+  bool handleIsLoading() { //set the "isLoading" to true or false
+    setState(() {
+      isLoading = !isLoading;
+    });
+    return isLoading;
   }
 
-  _showToast(String text) { //function to show toast on the page
-    Widget signinToast = Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-        decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: MyColors.unimatchRed,
-        ),
-        child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-            const Icon(Icons.error),
-            const SizedBox(
-            width: 12.0,
-            ),
-            Text(text),
-        ],
-        ),
-    );
+  void register() {
+    //start loading
+    handleIsLoading();
 
-
-    fToast.showToast(
-        child: signinToast,
-        gravity: ToastGravity.TOP,
-        toastDuration: const Duration(seconds: 2),
-    );
-}
+    if (passTextFieldController.text != confirmPassTextFieldController.text) {
+      fToast.showToast(
+        child: toasts.errorToast("Ambas as senhas devem ser iguais."),
+        toastDuration: const Duration(seconds: 3),
+        gravity: ToastGravity.TOP
+      );
+      handleIsLoading();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +105,7 @@ class _RegisterState extends State<Register> {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: UniTextField(hintText: "Confirmar senha", controller: confirmPassTextFieldController, hideText: true)
                       ),
-                      UniButton(btnText: "REGISTRAR", onPress: () => register()), //insert the controller in the password text field
+                      UniButton(btnText: "REGISTRAR", isLoading: isLoading, onPress: () => register()), //insert the controller in the password text field
                       Padding(
                         padding: const EdgeInsets.only(top: 32),
                         child: RichText(text: TextSpan(text: "Já possui uma conta? ", style: const TextStyle(
