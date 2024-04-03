@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:unimatch/auth/auth.dart';
 import 'package:unimatch/firebase_options.dart';
 import 'package:unimatch/screens/signin.dart';
 
@@ -20,7 +21,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       builder: FToastBuilder(),
       debugShowCheckedModeBanner: false,
-      home: const SignIn(),
+      home: const AuthPage(),
     );
   }
 }

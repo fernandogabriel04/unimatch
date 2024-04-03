@@ -104,7 +104,7 @@ class _RegisterState extends State<Register> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
-                        child: UniTextField(hintText: "E-mail", controller: emailTextFieldController)
+                        child: UniTextField(hintText: "Email", controller: emailTextFieldController)
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
