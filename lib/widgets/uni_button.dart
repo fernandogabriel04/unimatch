@@ -5,11 +5,13 @@ class UniButton extends StatefulWidget {
 
   final String btnText; //Changes the button text
   final void Function() onPress; //onPress function as a parameter
+  final bool isLoading;
 
   const UniButton({
     super.key,
     required this.btnText,
-    required this.onPress
+    required this.onPress,
+    this.isLoading = false
     });
 
   @override
@@ -26,10 +28,19 @@ class _UniButtonState extends State<UniButton> {
         onPressed: widget.onPress, //Receive the onPress function
         style: ButtonStyle(
           alignment: Alignment.center,
-          backgroundColor: MaterialStateColor.resolveWith((states) => MyColors.unimatchRed),
+          backgroundColor: widget.isLoading? MaterialStateColor.resolveWith((states) => const Color.fromARGB(255, 192, 0, 67)) : MaterialStateColor.resolveWith((states) => MyColors.unimatchRed),
           shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))),
         ),
-        child: Text(
+        child: widget.isLoading? 
+          const Center(
+            widthFactor: 8,
+            child: CircularProgressIndicator(
+              color: MyColors.unimatchWhite,
+              strokeWidth: 1,
+            ),
+          )
+         : 
+          Text(
           widget.btnText,
           style: const TextStyle(
             color: MyColors.unimatchWhite
