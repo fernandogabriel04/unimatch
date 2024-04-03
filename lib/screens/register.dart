@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,7 +43,7 @@ class _RegisterState extends State<Register> {
     return isLoading;
   }
 
-  void register() {
+  void registerUser() async {
     //start loading
     handleIsLoading();
 
@@ -53,6 +54,14 @@ class _RegisterState extends State<Register> {
         gravity: ToastGravity.TOP
       );
       handleIsLoading();
+    } else {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailTextFieldController.text, password: passTextFieldController.text);
+        handleIsLoading();
+      } on FirebaseAuthException catch (error) {
+        handleIsLoading();
+        toasts.errorToast(error.code);
+      }
     }
   }
 
@@ -95,7 +104,7 @@ class _RegisterState extends State<Register> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
-                        child: UniTextField(hintText: "E-mail", controller: emailTextFieldController, hideText: true)
+                        child: UniTextField(hintText: "E-mail", controller: emailTextFieldController)
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
@@ -105,7 +114,7 @@ class _RegisterState extends State<Register> {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: UniTextField(hintText: "Confirmar senha", controller: confirmPassTextFieldController, hideText: true)
                       ),
-                      UniButton(btnText: "REGISTRAR", isLoading: isLoading, onPress: () => register()), //insert the controller in the password text field
+                      UniButton(btnText: "REGISTRAR", isLoading: isLoading, onPress: () => registerUser()), //insert the controller in the password text field
                       Padding(
                         padding: const EdgeInsets.only(top: 32),
                         child: RichText(text: TextSpan(text: "Já possui uma conta? ", style: const TextStyle(
