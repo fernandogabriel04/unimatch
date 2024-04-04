@@ -12,12 +12,22 @@ class BottomNavAnimated extends StatefulWidget {
 
 class _BottomNavAnimatedState extends State<BottomNavAnimated> {
   List<dynamic> riveIconsInputs = [];
+  List<StateMachineController?> controllers = [];
+  List<String> pages = ["chat", "add", "profile"];
   int selectedNavItem = 0;
 
   void handleSelectedNavItem(int index) {
     setState(() {
       selectedNavItem = index;
     });
+  }
+
+  @override
+  void dispose() {
+    for (var controller in controllers) {
+      controller?.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -56,6 +66,7 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
                     StateMachineController? controller = StateMachineController.fromArtboard(artboard, riveIcon.stateMachine);
                     artboard.addController(controller!);
                     riveIconsInputs.add(controller.findInput<bool>('Pressed'));
+                    controllers.add(controller);
                   },),
                 ),),
               );

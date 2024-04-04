@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavAnimated()
+      bottomNavigationBar: const BottomNavAnimated()
     );
   }
 }
