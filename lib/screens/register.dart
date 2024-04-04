@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:unimatch/helpers/error_messages.dart';
 import 'package:unimatch/helpers/toasts.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_button.dart';
@@ -54,8 +55,7 @@ class _RegisterState extends State<Register> {
         gravity: ToastGravity.TOP
       );
       handleIsLoading();
-    } else {
-      if (!emailTextFieldController.text.contains("@alunos.afya.com.br")) {
+    } else if (!emailTextFieldController.text.contains("@alunos.afya.com.br")) {
       fToast.showToast(
         child: toasts.errorToast("Utilize o email institucional"),
         toastDuration: const Duration(seconds: 3),
@@ -65,14 +65,22 @@ class _RegisterState extends State<Register> {
     } else {
       try {
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailTextFieldController.text, password: passTextFieldController.text);
+        fToast.showToast(
+          child: toasts.successToast("Email registrado com sucesso!"),
+          toastDuration: const Duration(seconds: 3),
+          gravity: ToastGravity.TOP
+          );
         handleIsLoading();
       } on FirebaseAuthException catch (error) {
         handleIsLoading();
-        toasts.errorToast(error.code);
+        fToast.showToast(
+          child: toasts.errorToast(ErrorMessages().errorMessages[error.code]),
+          toastDuration: const Duration(seconds: 3),
+          gravity: ToastGravity.TOP);
       }
     }
   }
-}
+  
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
