@@ -5,9 +5,10 @@ import 'package:unimatch/screens/matches_page.dart';
 import 'package:unimatch/screens/messages_page.dart';
 import 'package:unimatch/screens/profile_page.dart';
 import 'package:unimatch/styles/global.dart';
+import 'package:unimatch/widgets/bottomNavAnimated.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
+  static const List<Widget> _widgetOptions = <Widget>[
     Text('Make a match', style: TextStyle(color: MyColors.unimatchWhite)),
     MatchesPage(),
     MessagesPage(),
@@ -59,34 +60,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: MyColors.unimatchBlack,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: MyColors.unimatchBlack,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Matches',
-            backgroundColor: MyColors.unimatchBlack,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Messages',
-            backgroundColor: MyColors.unimatchBlack,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-            backgroundColor: MyColors.unimatchBlack,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: MyColors.unimatchRed,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: BottomNavAnimated()
     );
   }
 }
