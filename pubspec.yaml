@@ -70,6 +70,8 @@ flutter:
   assets:
     - assets/Images/
     - assets/Icons/add.riv
+    - assets/Icons/chat&home.riv
+    - assets/Icons/profile.riv
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

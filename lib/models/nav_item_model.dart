@@ -9,10 +9,10 @@ class NavItemModel {
 
 List<NavItemModel> bottomNavItems = [
   NavItemModel(
-    title: "Add",
+    title: "Chat",
     rive: RiveModel(
-      src: "assets/Icons/add.riv",
-      artBoard: "New Artboard",
+      src: "assets/Icons/chat&home.riv",
+      artBoard: "chat",
       stateMachine: "State Machine 1"
     )
   ),
@@ -25,26 +25,10 @@ List<NavItemModel> bottomNavItems = [
     )
   ),
   NavItemModel(
-    title: "Add",
+    title: "Profile",
     rive: RiveModel(
-      src: "assets/Icons/add.riv",
-      artBoard: "New Artboard",
-      stateMachine: "State Machine 1"
-    )
-  ),
-  NavItemModel(
-    title: "Add",
-    rive: RiveModel(
-      src: "assets/Icons/add.riv",
-      artBoard: "New Artboard",
-      stateMachine: "State Machine 1"
-    )
-  ),
-  NavItemModel(
-    title: "Add",
-    rive: RiveModel(
-      src: "assets/Icons/add.riv",
-      artBoard: "New Artboard",
+      src: "assets/Icons/profile.riv",
+      artBoard: "profile",
       stateMachine: "State Machine 1"
     )
   ),

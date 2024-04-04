@@ -11,7 +11,15 @@ class BottomNavAnimated extends StatefulWidget {
 }
 
 class _BottomNavAnimatedState extends State<BottomNavAnimated> {
-  List<SMITrigger> riveIconsInputs = [];
+  List<dynamic> riveIconsInputs = [];
+  int selectedNavItem = 0;
+
+  void handleSelectedNavItem(int index) {
+    setState(() {
+      selectedNavItem = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,17 +44,20 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
               final riveIcon = bottomNavItems[index].rive;
               return GestureDetector(
                 onTap: () {
-                  print(riveIcon.stateMachine);
                   riveIconsInputs[index].change(true);
+                  handleSelectedNavItem(index);
                   },
                 child: SizedBox(
                 width: 36,
                 height: 36,
-                child: RiveAnimation.asset(riveIcon.src, artboard: riveIcon.artBoard, onInit: (artboard) {
-                  StateMachineController? controller = StateMachineController.fromArtboard(artboard, riveIcon.stateMachine);
-                  artboard.addController(controller!);
-                  riveIconsInputs.add(controller.findInput<bool>('Pressed') as SMITrigger);
-                },),),
+                child: Opacity(
+                  opacity: selectedNavItem == index? 1: 0.5,
+                  child: RiveAnimation.asset(riveIcon.src, artboard: riveIcon.artBoard, onInit: (artboard) {
+                    StateMachineController? controller = StateMachineController.fromArtboard(artboard, riveIcon.stateMachine);
+                    artboard.addController(controller!);
+                    riveIconsInputs.add(controller.findInput<bool>('Pressed'));
+                  },),
+                ),),
               );
             }
             ),
