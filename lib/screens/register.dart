@@ -55,6 +55,14 @@ class _RegisterState extends State<Register> {
       );
       handleIsLoading();
     } else {
+      if (!emailTextFieldController.text.contains("@alunos.afya.com.br")) {
+      fToast.showToast(
+        child: toasts.errorToast("Utilize o email institucional"),
+        toastDuration: const Duration(seconds: 3),
+        gravity: ToastGravity.TOP
+      );
+      handleIsLoading();
+    } else {
       try {
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailTextFieldController.text, password: passTextFieldController.text);
         handleIsLoading();
@@ -64,7 +72,7 @@ class _RegisterState extends State<Register> {
       }
     }
   }
-
+}
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
@@ -104,7 +112,96 @@ class _RegisterState extends State<Register> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
-                        child: UniTextField(hintText: "Email", controller: emailTextFieldController)
+                        child: Stack(
+                          alignment: Alignment.centerRight,
+                          children: [
+                            UniTextField(
+                              hintText: "Email",
+                              controller: emailTextFieldController,
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.info),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: MyColors.unimatchRed,
+                                      title: Text(
+                                        "Informações sobre o e-mail institucional",
+                                        style: TextStyle(
+                                          color: MyColors.unimatchWhite,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      content: RichText(
+                                        text: TextSpan(
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: "Caso não tenha feito o primeiro acesso ainda, realize o seguinte procedimento:\n\n",
+                                            ),
+                                            TextSpan(
+                                              text: "1. Acesse outlook.com e insira os seguintes dados\n",
+                                            ),
+                                            TextSpan(
+                                              text: "2. Email: ",
+                                            ),
+                                            TextSpan(
+                                              text: "<SeuPrimeiroNome>",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: ".",
+                                            ),
+                                            TextSpan(
+                                              text: "<SeuUltimoSobrenome>",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "@alunos.afya.com.br\n",
+                                            ),
+                                            TextSpan(
+                                              text: "3. Senha: Af#",
+                                            ),
+                                            TextSpan(
+                                              text: "<5 últimos dígitos do seu CPF>",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "@2024",
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("Fechar", style: TextStyle(color: MyColors.unimatchWhite),),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16),
