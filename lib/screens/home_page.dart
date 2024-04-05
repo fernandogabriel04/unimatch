@@ -18,9 +18,8 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Make a match', style: TextStyle(color: MyColors.unimatchWhite)),
-    MatchesPage(),
     MessagesPage(),
+    MatchesPage(),
     ProfilePage(),
   ];
 
@@ -60,7 +59,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: const BottomNavAnimated()
+      bottomNavigationBar: BottomNavAnimated(onItemSelected: _onItemTapped, selectedIndex: _selectedIndex,),
     );
   }
 }

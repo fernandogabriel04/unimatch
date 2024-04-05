@@ -4,22 +4,22 @@ import 'package:unimatch/models/nav_item_model.dart';
 import 'package:unimatch/styles/global.dart';
 
 class BottomNavAnimated extends StatefulWidget {
-  const BottomNavAnimated({super.key});
+  final Function(int) onItemSelected; //callback
+  final int selectedIndex;
+  const BottomNavAnimated({super.key, required this.onItemSelected, required this.selectedIndex});
 
   @override
   State<BottomNavAnimated> createState() => _BottomNavAnimatedState();
+  
 }
 
 class _BottomNavAnimatedState extends State<BottomNavAnimated> {
   List<dynamic> riveIconsInputs = [];
   List<StateMachineController?> controllers = [];
   List<String> pages = ["chat", "add", "profile"];
-  int selectedNavItem = 0;
 
   void handleSelectedNavItem(int index) {
-    setState(() {
-      selectedNavItem = index;
-    });
+    widget.onItemSelected(index);
   }
 
   @override
@@ -54,14 +54,13 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
               final riveIcon = bottomNavItems[index].rive;
               return GestureDetector(
                 onTap: () {
-                  riveIconsInputs[index].change(true);
-                  handleSelectedNavItem(index);
-                  },
+                  widget.onItemSelected(index);
+                },
                 child: SizedBox(
                 width: 36,
                 height: 36,
                 child: Opacity(
-                  opacity: selectedNavItem == index? 1: 0.5,
+                  opacity: widget.selectedIndex == index? 1: 0.5,
                   child: RiveAnimation.asset(riveIcon.src, artboard: riveIcon.artBoard, onInit: (artboard) {
                     StateMachineController? controller = StateMachineController.fromArtboard(artboard, riveIcon.stateMachine);
                     artboard.addController(controller!);
