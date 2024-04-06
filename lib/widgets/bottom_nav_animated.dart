@@ -4,7 +4,15 @@ import 'package:unimatch/models/nav_item_model.dart';
 import 'package:unimatch/styles/global.dart';
 
 class BottomNavAnimated extends StatefulWidget {
-  const BottomNavAnimated({super.key});
+
+  int selectedNavItem;
+  void Function(int) onItemTapped;
+
+  BottomNavAnimated({
+    super.key,
+    required this.selectedNavItem,
+    required this.onItemTapped
+    });
 
   @override
   State<BottomNavAnimated> createState() => _BottomNavAnimatedState();
@@ -13,14 +21,7 @@ class BottomNavAnimated extends StatefulWidget {
 class _BottomNavAnimatedState extends State<BottomNavAnimated> {
   List<dynamic> riveIconsInputs = [];
   List<StateMachineController?> controllers = [];
-  List<String> pages = ["chat", "add", "profile"];
-  int selectedNavItem = 0;
 
-  void handleSelectedNavItem(int index) {
-    setState(() {
-      selectedNavItem = index;
-    });
-  }
 
   @override
   void dispose() {
@@ -32,6 +33,8 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
 
   @override
   Widget build(BuildContext context) {
+  int selectedNavItem = widget.selectedNavItem;
+
     return SafeArea(
         child: Container(
           padding: const EdgeInsets.all(12),
@@ -55,7 +58,7 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
               return GestureDetector(
                 onTap: () {
                   riveIconsInputs[index].change(true);
-                  handleSelectedNavItem(index);
+                  widget.onItemTapped(index);
                   },
                 child: SizedBox(
                 width: 36,

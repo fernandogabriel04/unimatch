@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  var _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Make a match', style: TextStyle(color: MyColors.unimatchWhite)),
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: const BottomNavAnimated()
+      bottomNavigationBar: BottomNavAnimated(selectedNavItem: _selectedIndex, onItemTapped: _onItemTapped,)
     );
   }
 }
