@@ -5,10 +5,10 @@ import 'package:unimatch/styles/global.dart';
 
 class BottomNavAnimated extends StatefulWidget {
 
-  int selectedNavItem;
-  void Function(int) onItemTapped;
+  final int selectedNavItem;
+  final void Function(int) onItemTapped;
 
-  BottomNavAnimated({
+  const BottomNavAnimated({
     super.key,
     required this.selectedNavItem,
     required this.onItemTapped

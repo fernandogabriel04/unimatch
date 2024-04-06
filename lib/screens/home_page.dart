@@ -50,6 +50,13 @@ class _HomePageState extends State<HomePage> {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This is a notification')));
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            color: MyColors.unimatchRed,
+            onPressed: () {
+              logOut();
+            },
+          ),
         ],
         title: SvgPicture.asset(
           "./assets/Images/unimatch-logo.svg",

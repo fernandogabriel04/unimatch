@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unimatch/helpers/error_messages.dart';
 import 'package:unimatch/helpers/toasts.dart';
 import 'package:unimatch/styles/global.dart';
+import 'package:unimatch/widgets/uni_bottom_sheet.dart';
 import 'package:unimatch/widgets/uni_button.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
 
@@ -87,156 +88,190 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       backgroundColor: MyColors.unimatchBlack,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    child: SvgPicture.asset(
-                      "./assets/Images/unimatch-logo.svg",
-                      width: 386,
-                      height: 20,
+        child: Builder(
+          builder: (context) => 
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: Container(
+                        alignment: Alignment.topCenter,
+                        child: SvgPicture.asset(
+                          "./assets/Images/unimatch-logo.svg",
+                          width: 386,
+                          height: 20,
+                          ),
                       ),
+                    ),
                   ),
-                ),
-              ),
-              Focus(
-                autofocus: true, //auto focus when its visible
-                onFocusChange: (value) => handleStartAnimation(), //start the animation when the Widget is focused
-                child: AnimatedOpacity(
-                  curve: Curves.linear,
-                  opacity: startAnimation? 1: 0,
-                  duration: const Duration(seconds: 1),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: UniTextField(hintText: "Nome", controller: nameTextFieldController) //insert the controller into user text field
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: Stack(
-                          alignment: Alignment.centerRight,
-                          children: [
-                            UniTextField(
-                              hintText: "Email",
-                              controller: emailTextFieldController,
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.info),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      backgroundColor: MyColors.unimatchRed,
-                                      title: Text(
-                                        "Informações sobre o e-mail institucional",
-                                        style: TextStyle(
-                                          color: MyColors.unimatchWhite,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      content: RichText(
-                                        text: TextSpan(
+                  Focus(
+                    autofocus: true, //auto focus when its visible
+                    onFocusChange: (value) => handleStartAnimation(), //start the animation when the Widget is focused
+                    child: AnimatedOpacity(
+                      curve: Curves.linear,
+                      opacity: startAnimation? 1: 0,
+                      duration: const Duration(seconds: 1),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: UniTextField(hintText: "Nome", controller: nameTextFieldController) //insert the controller into user text field
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Stack(
+                              alignment: Alignment.centerRight,
+                              children: [
+                                UniTextField(
+                                  hintText: "Email",
+                                  controller: emailTextFieldController,
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.info),
+                                  onPressed: () {
+                                    showModalBottomSheet<void>( 
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return UniBottomSheet(title: "EMAIL INSTITUCIONAL", 
+                                        texts: [
+                                          Text("Sobre o email institucional:\n",
                                           style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
+                                            color: MyColors.unimatchWhite,
+                                            fontSize: 16
                                           ),
-                                          children: [
-                                            TextSpan(
-                                              text: "Caso não tenha feito o primeiro acesso ainda, realize o seguinte procedimento:\n\n",
-                                            ),
-                                            TextSpan(
-                                              text: "1. Acesse outlook.com e insira os seguintes dados\n",
-                                            ),
-                                            TextSpan(
-                                              text: "2. Email: ",
-                                            ),
-                                            TextSpan(
-                                              text: "<SeuPrimeiroNome>",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: ".",
-                                            ),
-                                            TextSpan(
-                                              text: "<SeuUltimoSobrenome>",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: "@alunos.afya.com.br\n",
-                                            ),
-                                            TextSpan(
-                                              text: "3. Senha: Af#",
-                                            ),
-                                            TextSpan(
-                                              text: "<5 últimos dígitos do seu CPF>",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: "@2024",
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text("Fechar", style: TextStyle(color: MyColors.unimatchWhite),),
-                                        ),
-                                      ],
+                                          ), 
+                                          Text('Caso não tenha feito o primero acesso ainda, acesse "Outlook.com" e siga os passos:\n', style: TextStyle(
+                                            color: MyColors.unimatchWhite,
+                                            fontSize: 16
+                                          ),),
+                                          Text("e-mail:", style: TextStyle(
+                                            color: MyColors.unimatchRed,
+                                            fontSize: 20
+                                          ),),
+                                          Text("<SeuPrimeiroNome>.<SeuUltimoSobrenome>@alunos.afya.com.br", style: TextStyle(
+                                            color: MyColors.unimatchRed,
+                                            fontSize: 16
+                                          ),),
+                                          Text("senha:", style: TextStyle(
+                                            color: MyColors.unimatchRed,
+                                            fontSize: 20
+                                          ),),
+                                          Text("Af#<5 últimos dígitos do seu cpf>@2024", style: TextStyle(
+                                            color: MyColors.unimatchRed,
+                                            fontSize: 16
+                                          ),)
+                                        ],);
+                                      }
+                                        // return AlertDialog(
+                                        //   backgroundColor: MyColors.unimatchRed,
+                                        //   title: const Text(
+                                        //     "Informações sobre o e-mail institucional",
+                                        //     style: TextStyle(
+                                        //       color: MyColors.unimatchWhite,
+                                        //       fontSize: 20,
+                                        //       fontWeight: FontWeight.bold,
+                                        //     ),
+                                        //   ),
+                                        //   content: RichText(
+                                        //     text: const TextSpan(
+                                        //       style: TextStyle(
+                                        //         color: Colors.white,
+                                        //         fontSize: 14,
+                                        //       ),
+                                        //       children: [
+                                        //         TextSpan(
+                                        //           text: "Caso não tenha feito o primeiro acesso ainda, realize o seguinte procedimento:\n\n",
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: "1. Acesse outlook.com e insira os seguintes dados\n",
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: "2. Email: ",
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: "<SeuPrimeiroNome>",
+                                        //           style: TextStyle(
+                                        //             color: Colors.grey,
+                                        //             fontWeight: FontWeight.bold,
+                                        //           ),
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: ".",
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: "<SeuUltimoSobrenome>",
+                                        //           style: TextStyle(
+                                        //             color: Colors.grey,
+                                        //             fontWeight: FontWeight.bold,
+                                        //           ),
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: "@alunos.afya.com.br\n",
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: "3. Senha: Af#",
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: "<5 últimos dígitos do seu CPF>",
+                                        //           style: TextStyle(
+                                        //             color: Colors.grey,
+                                        //             fontWeight: FontWeight.bold,
+                                        //           ),
+                                        //         ),
+                                        //         TextSpan(
+                                        //           text: "@2024",
+                                        //         ),
+                                        //       ],
+                                        //     ),
+                                        //   ),
+                                        //   actions: <Widget>[
+                                        //     TextButton(
+                                        //       onPressed: () {
+                                        //         Navigator.of(context).pop();
+                                        //       },
+                                        //       child: const Text("Fechar", style: TextStyle(color: MyColors.unimatchWhite),),
+                                        //     ),
+                                        //   ],
+                                        // );
                                     );
                                   },
-                                );
-                              },
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: UniTextField(hintText: "Senha", controller: passTextFieldController, hideText: true)
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: UniTextField(hintText: "Confirmar senha", controller: confirmPassTextFieldController, hideText: true)
-                      ),
-                      UniButton(btnText: "REGISTRAR", isLoading: isLoading, onPress: () => registerUser()), //insert the controller in the password text field
-                      Padding(
-                        padding: const EdgeInsets.only(top: 32),
-                        child: RichText(text: TextSpan(text: "Já possui uma conta? ", style: const TextStyle(
-                          color: MyColors.unimatchWhite
-                        ), children: [
-                          TextSpan(text: "Fazer login", style: const TextStyle(
-                            color: MyColors.unimatchRed
                           ),
-                          recognizer: TapGestureRecognizer()
-                          ..onTap = () => Navigator.of(context).pop()),
-                        ])),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: UniTextField(hintText: "Senha", controller: passTextFieldController, hideText: true)
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: UniTextField(hintText: "Confirmar senha", controller: confirmPassTextFieldController, hideText: true)
+                          ),
+                          UniButton(btnText: "REGISTRAR", isLoading: isLoading, onPress: () => registerUser()), //insert the controller in the password text field
+                          Padding(
+                            padding: const EdgeInsets.only(top: 32),
+                            child: RichText(text: TextSpan(text: "Já possui uma conta? ", style: const TextStyle(
+                              color: MyColors.unimatchWhite
+                            ), children: [
+                              TextSpan(text: "Fazer login", style: const TextStyle(
+                                color: MyColors.unimatchRed
+                              ),
+                              recognizer: TapGestureRecognizer()
+                              ..onTap = () => Navigator.of(context).pop()),
+                            ])),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
