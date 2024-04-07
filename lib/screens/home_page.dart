@@ -7,6 +7,8 @@ import 'package:unimatch/screens/profile_page.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/bottom_nav_animated.dart';
 
+
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
