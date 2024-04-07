@@ -15,11 +15,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  var _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    MessagesPage(),
+    Text('Make a match', style: TextStyle(color: MyColors.unimatchWhite)),
     MatchesPage(),
+    MessagesPage(),
     ProfilePage(),
   ];
 
@@ -49,6 +50,13 @@ class _HomePageState extends State<HomePage> {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This is a notification')));
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            color: MyColors.unimatchRed,
+            onPressed: () {
+              logOut();
+            },
+          ),
         ],
         title: SvgPicture.asset(
           "./assets/Images/unimatch-logo.svg",
@@ -59,7 +67,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavAnimated(onItemSelected: _onItemTapped, selectedIndex: _selectedIndex,),
+      bottomNavigationBar: BottomNavAnimated(selectedNavItem: _selectedIndex, onItemTapped: _onItemTapped,)
     );
   }
 }

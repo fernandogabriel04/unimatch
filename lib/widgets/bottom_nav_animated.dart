@@ -4,23 +4,24 @@ import 'package:unimatch/models/nav_item_model.dart';
 import 'package:unimatch/styles/global.dart';
 
 class BottomNavAnimated extends StatefulWidget {
-  final Function(int) onItemSelected; //callback
-  final int selectedIndex;
-  const BottomNavAnimated({super.key, required this.onItemSelected, required this.selectedIndex});
+
+  final int selectedNavItem;
+  final void Function(int) onItemTapped;
+
+  const BottomNavAnimated({
+    super.key,
+    required this.selectedNavItem,
+    required this.onItemTapped
+    });
 
   @override
   State<BottomNavAnimated> createState() => _BottomNavAnimatedState();
-  
 }
 
 class _BottomNavAnimatedState extends State<BottomNavAnimated> {
   List<dynamic> riveIconsInputs = [];
   List<StateMachineController?> controllers = [];
-  List<String> pages = ["chat", "add", "profile"];
 
-  void handleSelectedNavItem(int index) {
-    widget.onItemSelected(index);
-  }
 
   @override
   void dispose() {
@@ -32,6 +33,8 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
 
   @override
   Widget build(BuildContext context) {
+  int selectedNavItem = widget.selectedNavItem;
+
     return SafeArea(
         child: Container(
           padding: const EdgeInsets.all(12),
@@ -54,13 +57,14 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
               final riveIcon = bottomNavItems[index].rive;
               return GestureDetector(
                 onTap: () {
-                  widget.onItemSelected(index);
-                },
+                  riveIconsInputs[index].change(true);
+                  widget.onItemTapped(index);
+                  },
                 child: SizedBox(
                 width: 36,
                 height: 36,
                 child: Opacity(
-                  opacity: widget.selectedIndex == index? 1: 0.5,
+                  opacity: selectedNavItem == index? 1: 0.5,
                   child: RiveAnimation.asset(riveIcon.src, artboard: riveIcon.artBoard, onInit: (artboard) {
                     StateMachineController? controller = StateMachineController.fromArtboard(artboard, riveIcon.stateMachine);
                     artboard.addController(controller!);
