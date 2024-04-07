@@ -12,7 +12,7 @@ class _MatchesPageState extends State<MatchesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.unimatchSemiBlack,
+      backgroundColor: MyColors.unimatchBlack,
       body: Center(child: Text('Matches Page', style: TextStyle(color: MyColors.unimatchWhite))),
     );
   }
