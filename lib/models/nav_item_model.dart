@@ -16,12 +16,15 @@ List<NavItemModel> bottomNavItems = [
       stateMachine: "State Machine 1"
     )
   ),
+  
   NavItemModel(
-    title: "Add",
+    title: "Match",
     rive: RiveModel(
-      src: "assets/Icons/add.riv",
-      artBoard: "New Artboard",
-      stateMachine: "State Machine 1"
+      src: "assets/Icons/heartjump.riv",
+      artBoard: "jump",
+      stateMachine: "State Jump"
+
+      
     )
   ),
   NavItemModel(

@@ -65,7 +65,7 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
                 height: 36,
                 child: Opacity(
                   opacity: selectedNavItem == index? 1: 0.5,
-                  child: RiveAnimation.asset(riveIcon.src, artboard: riveIcon.artBoard, onInit: (artboard) {
+                  child: RiveAnimation.asset(riveIcon.src, artboard: riveIcon.artBoard, fit: BoxFit.cover, onInit: (artboard) {
                     StateMachineController? controller = StateMachineController.fromArtboard(artboard, riveIcon.stateMachine);
                     artboard.addController(controller!);
                     riveIconsInputs.add(controller.findInput<bool>('Pressed'));

@@ -7,6 +7,8 @@ import 'package:unimatch/screens/profile_page.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/bottom_nav_animated.dart';
 
+
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -18,9 +20,8 @@ class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Make a match', style: TextStyle(color: MyColors.unimatchWhite)),
-    MatchesPage(),
     MessagesPage(),
+    MatchesPage(),
     ProfilePage(),
   ];
 
