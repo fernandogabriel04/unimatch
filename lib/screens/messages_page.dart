@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unimatch/screens/chat_page.dart';
-import 'package:unimatch/services/chat/chat.dart';
+import 'package:unimatch/services/chat/chat_services.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/user_tile.dart';
 

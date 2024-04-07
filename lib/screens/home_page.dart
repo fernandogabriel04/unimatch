@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:unimatch/screens/matches_page.dart';
 import 'package:unimatch/screens/messages_page.dart';
 import 'package:unimatch/screens/profile_page.dart';
+import 'package:unimatch/services/auth/auth_services.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/bottom_nav_animated.dart';
 
@@ -32,8 +32,9 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void logOut() {
-    FirebaseAuth.instance.signOut();
+  void logOut() async {
+    final authServices = AuthServices();
+    await authServices.signOut();
   }
 
   @override

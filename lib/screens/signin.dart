@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unimatch/helpers/error_messages.dart';
 import 'package:unimatch/helpers/toasts.dart';
 import 'package:unimatch/screens/register.dart';
+import 'package:unimatch/services/auth/auth_services.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_button.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
@@ -61,17 +61,14 @@ class _SignInState extends State<SignIn> {
 
   void login() async {
     handleIsLoading();
+    final authService = AuthServices();
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailTextFieldController.text, password: passTextFieldController.text);
+      await authService.signInWithEmailAndPassword(emailTextFieldController.text, passTextFieldController.text);
       handleIsLoading();
-    } on FirebaseAuthException catch (error) {
-      fToast.showToast(
-        toastDuration: const Duration(seconds: 3),
-        gravity: ToastGravity.TOP,
-        child: toast.errorToast(errorMessages[error.code])
-      );
+    } catch (error) {
       handleIsLoading();
+      throw Exception(error);
     }
   }
 
