@@ -40,7 +40,7 @@ class _BottomNavAnimatedState extends State<BottomNavAnimated> {
           padding: const EdgeInsets.all(12),
           margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
           decoration: BoxDecoration(
-            color: MyColors.unimatchBlack,
+            color: MyColors.unimatchSemiBlack,
             borderRadius: const BorderRadius.all(Radius.circular(24)),
             boxShadow: [
               BoxShadow(
