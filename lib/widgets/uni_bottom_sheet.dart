@@ -4,18 +4,20 @@ import 'package:unimatch/styles/global.dart';
 
 class UniBottomSheet extends StatelessWidget {
   final String title;
-  final List<Widget> texts;
+  final String description;
+  final List<Widget> items;
 
   const UniBottomSheet({
     super.key,
     required this.title,
-    required this.texts
+    required this.description,
+    required this.items
     });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.parse(MediaQuery.of(context).size.height.toString()) / 0.5,
+      height: double.parse(MediaQuery.of(context).size.height.toString()),
       width: double.parse(MediaQuery.of(context).size.width.toString()),
       decoration: BoxDecoration(
         color: MyColors.unimatchBlack.withOpacity(0.92),
@@ -26,20 +28,53 @@ class UniBottomSheet extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Text(title, 
-              style: const TextStyle(
-                color: MyColors.unimatchWhite,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              child: Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 64,
+                      height: 4,
+                      margin: EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: MyColors.unimatchGray
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(title, 
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        color: MyColors.unimatchWhite,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      ),
+                    ],
+                  ),
+                  if (description.isNotEmpty) Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(description, 
+                      style: const TextStyle(
+                        color: MyColors.unimatchWhite,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
             SizedBox(
-              height: 320,
+              height: 282,
               child: ListView.builder(
-                itemCount: texts.length,
+                itemCount: items.length,
                 itemBuilder: (context, index) {
-                  return texts[index];
+                  return items[index];
                 }),
             )
           ],

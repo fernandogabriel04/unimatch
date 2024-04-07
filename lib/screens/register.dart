@@ -8,6 +8,7 @@ import 'package:unimatch/helpers/toasts.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_bottom_sheet.dart';
 import 'package:unimatch/widgets/uni_button.dart';
+import 'package:unimatch/widgets/uni_card.dart';
 import 'package:unimatch/widgets/uni_text_field.dart';
 
 //Turning SignIn State Less Widget into a State Full Widget
@@ -137,34 +138,11 @@ class _RegisterState extends State<Register> {
                                     showModalBottomSheet<void>( 
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return UniBottomSheet(title: "EMAIL INSTITUCIONAL", 
-                                        texts: [
-                                          Text("Sobre o email institucional:\n",
-                                          style: TextStyle(
-                                            color: MyColors.unimatchWhite,
-                                            fontSize: 16
-                                          ),
-                                          ), 
-                                          Text('Caso não tenha feito o primero acesso ainda, acesse "Outlook.com" e siga os passos:\n', style: TextStyle(
-                                            color: MyColors.unimatchWhite,
-                                            fontSize: 16
-                                          ),),
-                                          Text("e-mail:", style: TextStyle(
-                                            color: MyColors.unimatchRed,
-                                            fontSize: 20
-                                          ),),
-                                          Text("<SeuPrimeiroNome>.<SeuUltimoSobrenome>@alunos.afya.com.br", style: TextStyle(
-                                            color: MyColors.unimatchRed,
-                                            fontSize: 16
-                                          ),),
-                                          Text("senha:", style: TextStyle(
-                                            color: MyColors.unimatchRed,
-                                            fontSize: 20
-                                          ),),
-                                          Text("Af#<5 últimos dígitos do seu cpf>@2024", style: TextStyle(
-                                            color: MyColors.unimatchRed,
-                                            fontSize: 16
-                                          ),)
+                                        return UniBottomSheet(title: "EMAIL INSTITUCIONAL", description: "Sobre o email institucional:", 
+                                        items: [
+                                          UniCard(title: "Outlook", description: 'Acesse o site "Outlook.com".', link: {"Outlook": "https://outlook.live.com/"},),
+                                          UniCard(title: "Campo de email", description: 'Seu email será dado da seguinte forma:', info: " <1° NOME> . <ÚLTIMO NOME>@alunos.afya.com.br ",),
+                                          UniCard(title: "Senha", description: 'Sua senha será dada da seguinte forma:', info: " Af#<5 ÚLTIMOS DÍGITOS DO SEU CPF>@2024 ",),
                                         ],);
                                       }
                                         // return AlertDialog(
