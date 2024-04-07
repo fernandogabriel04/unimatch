@@ -138,84 +138,13 @@ class _RegisterState extends State<Register> {
                                     showModalBottomSheet<void>( 
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return UniBottomSheet(title: "EMAIL INSTITUCIONAL", description: "Sobre o email institucional:", 
+                                        return const UniBottomSheet(title: "EMAIL INSTITUCIONAL", description: "Sobre o email institucional:", 
                                         items: [
                                           UniCard(title: "Outlook", description: 'Acesse o site "Outlook.com".', link: {"Outlook": "https://outlook.live.com/"},),
                                           UniCard(title: "Campo de email", description: 'Seu email será dado da seguinte forma:', info: " <1° NOME> . <ÚLTIMO NOME>@alunos.afya.com.br ",),
                                           UniCard(title: "Senha", description: 'Sua senha será dada da seguinte forma:', info: " Af#<5 ÚLTIMOS DÍGITOS DO SEU CPF>@2024 ",),
                                         ],);
                                       }
-                                        // return AlertDialog(
-                                        //   backgroundColor: MyColors.unimatchRed,
-                                        //   title: const Text(
-                                        //     "Informações sobre o e-mail institucional",
-                                        //     style: TextStyle(
-                                        //       color: MyColors.unimatchWhite,
-                                        //       fontSize: 20,
-                                        //       fontWeight: FontWeight.bold,
-                                        //     ),
-                                        //   ),
-                                        //   content: RichText(
-                                        //     text: const TextSpan(
-                                        //       style: TextStyle(
-                                        //         color: Colors.white,
-                                        //         fontSize: 14,
-                                        //       ),
-                                        //       children: [
-                                        //         TextSpan(
-                                        //           text: "Caso não tenha feito o primeiro acesso ainda, realize o seguinte procedimento:\n\n",
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: "1. Acesse outlook.com e insira os seguintes dados\n",
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: "2. Email: ",
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: "<SeuPrimeiroNome>",
-                                        //           style: TextStyle(
-                                        //             color: Colors.grey,
-                                        //             fontWeight: FontWeight.bold,
-                                        //           ),
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: ".",
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: "<SeuUltimoSobrenome>",
-                                        //           style: TextStyle(
-                                        //             color: Colors.grey,
-                                        //             fontWeight: FontWeight.bold,
-                                        //           ),
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: "@alunos.afya.com.br\n",
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: "3. Senha: Af#",
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: "<5 últimos dígitos do seu CPF>",
-                                        //           style: TextStyle(
-                                        //             color: Colors.grey,
-                                        //             fontWeight: FontWeight.bold,
-                                        //           ),
-                                        //         ),
-                                        //         TextSpan(
-                                        //           text: "@2024",
-                                        //         ),
-                                        //       ],
-                                        //     ),
-                                        //   ),
-                                        //   actions: <Widget>[
-                                        //     TextButton(
-                                        //       onPressed: () {
-                                        //         Navigator.of(context).pop();
-                                        //       },
-                                        //       child: const Text("Fechar", style: TextStyle(color: MyColors.unimatchWhite),),
-                                        //     ),
-                                        //   ],
-                                        // );
                                     );
                                   },
                                 ),
