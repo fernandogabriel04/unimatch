@@ -1,17 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unimatch/screens/chat_page.dart';
+import 'package:unimatch/services/auth/auth_services.dart';
 import 'package:unimatch/services/chat/chat_services.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/user_tile.dart';
 
 class MessagesPage extends StatelessWidget {
   final ChatServices _chatServices = ChatServices();
+  final AuthServices _authServices = AuthServices();
   MessagesPage({super.key});
 
-  User? getCurrentUser() {
-    return FirebaseAuth.instance.currentUser;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +44,9 @@ class MessagesPage extends StatelessWidget {
 
   Widget _buildUserListItem(Map<String, dynamic> userData, BuildContext context) {
     //display all users except current user
-    if (getCurrentUser() != null && userData["email"] != getCurrentUser()!.email) {
+    if (_authServices.getCurrentUser() != null && userData["email"] != _authServices.getCurrentUser()!.email) {
       return UserTile(text: userData["name"], onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(userName: userData["name"])));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(userName: userData["name"], receiverId: userData["uid"],)));
       },);
     } else {
       return SizedBox();
