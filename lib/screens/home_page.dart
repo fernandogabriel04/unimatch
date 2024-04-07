@@ -19,10 +19,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
+    const Text('Make a match', style: TextStyle(color: MyColors.unimatchWhite)),
+    const MatchesPage(),
     MessagesPage(),
-    MatchesPage(),
-    ProfilePage(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.unimatchSemiBlack,
+      backgroundColor: MyColors.unimatchBlack,
       appBar: AppBar(
         shadowColor: MyColors.unimatchSemiBlack,
         centerTitle: true,

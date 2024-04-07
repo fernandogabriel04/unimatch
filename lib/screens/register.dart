@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,18 @@ class _RegisterState extends State<Register> {
     return isLoading;
   }
 
+  
+  void saveUserInfo(UserCredential userCredential, String name) {
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    _firestore.collection("Users").doc(userCredential.user!.uid).set(
+      {
+        'uid': userCredential.user!.uid,
+        'email': userCredential.user!.email,
+        'name': name
+      }
+    );
+  }
+
   void registerUser() async {
     //start loading
     handleIsLoading();
@@ -67,6 +80,7 @@ class _RegisterState extends State<Register> {
     } else {
       try {
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailTextFieldController.text, password: passTextFieldController.text);
+        saveUserInfo(userCredential, nameTextFieldController.text);
         fToast.showToast(
           child: toasts.successToast("Email registrado com sucesso!"),
           toastDuration: const Duration(seconds: 3),
