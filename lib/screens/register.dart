@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:unimatch/helpers/error_messages.dart';
 import 'package:unimatch/helpers/toasts.dart';
+import 'package:unimatch/services/auth/auth_services.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/uni_bottom_sheet.dart';
 import 'package:unimatch/widgets/uni_button.dart';
@@ -46,6 +47,18 @@ class _RegisterState extends State<Register> {
     return isLoading;
   }
 
+  
+  void saveUserInfo(UserCredential userCredential, String name) {
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    _firestore.collection("Users").doc(userCredential.user!.uid).set(
+      {
+        'uid': userCredential.user!.uid,
+        'email': userCredential.user!.email,
+        'name': name
+      }
+    );
+  }
+
   void registerUser() async {
     //start loading
     handleIsLoading();
@@ -66,19 +79,13 @@ class _RegisterState extends State<Register> {
       handleIsLoading();
     } else {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailTextFieldController.text, password: passTextFieldController.text);
-        fToast.showToast(
-          child: toasts.successToast("Email registrado com sucesso!"),
-          toastDuration: const Duration(seconds: 3),
-          gravity: ToastGravity.TOP
-          );
+        final authServices = AuthServices();
+        UserCredential userCredential = await authServices.signUpWithEmailAndPassword(emailTextFieldController.text, passTextFieldController.text);
+        saveUserInfo(userCredential, nameTextFieldController.text);
         handleIsLoading();
-      } on FirebaseAuthException catch (error) {
+      } catch (error) {
         handleIsLoading();
-        fToast.showToast(
-          child: toasts.errorToast(ErrorMessages().errorMessages[error.code]),
-          toastDuration: const Duration(seconds: 3),
-          gravity: ToastGravity.TOP);
+        throw Exception(error);
       }
     }
   }

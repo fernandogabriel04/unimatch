@@ -1,19 +1,57 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:unimatch/screens/chat_page.dart';
+import 'package:unimatch/services/chat/chat_services.dart';
 import 'package:unimatch/styles/global.dart';
+import 'package:unimatch/widgets/user_tile.dart';
 
-class MessagesPage extends StatefulWidget {
-  const MessagesPage({super.key});
+class MessagesPage extends StatelessWidget {
+  final ChatServices _chatServices = ChatServices();
+  MessagesPage({super.key});
 
-  @override
-  State<MessagesPage> createState() => _MessagesPageState();
-}
+  User? getCurrentUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
 
-class _MessagesPageState extends State<MessagesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.unimatchSemiBlack,
-      body: Center(child: Text('Messages Page',style: TextStyle(color: MyColors.unimatchWhite)),),
+      backgroundColor: MyColors.unimatchBlack,
+      body: _builderUserList(),
     );
+  }
+
+  Widget _builderUserList() {
+    return StreamBuilder(stream: _chatServices.getUserStream(), builder: (context, snapshot) {
+      //error
+      if (snapshot.hasError) {
+        const Text("Ops, tivemos problemas ao carregar sua lista de usuários");
+      }
+      //loading
+      if (snapshot.hasData) {
+        return ListView(
+          children: snapshot.data!.map<Widget>((userData) => _buildUserListItem(userData, context)).toList(),
+        );
+      } else {
+        const Center(
+          child: CircularProgressIndicator(
+            color: MyColors.unimatchWhite,
+            strokeWidth: 1,
+          ),
+        );
+      }
+      return SizedBox();
+    });
+  }
+
+  Widget _buildUserListItem(Map<String, dynamic> userData, BuildContext context) {
+    //display all users except current user
+    if (getCurrentUser() != null && userData["email"] != getCurrentUser()!.email) {
+      return UserTile(text: userData["name"], onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage(userName: userData["name"])));
+      },);
+    } else {
+      return SizedBox();
+    }
   }
 }

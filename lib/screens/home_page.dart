@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:unimatch/screens/matches_page.dart';
 import 'package:unimatch/screens/messages_page.dart';
 import 'package:unimatch/screens/profile_page.dart';
+import 'package:unimatch/services/auth/auth_services.dart';
 import 'package:unimatch/styles/global.dart';
 import 'package:unimatch/widgets/bottom_nav_animated.dart';
 
@@ -19,10 +19,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
+    const Text('Make a match', style: TextStyle(color: MyColors.unimatchWhite)),
+    const MatchesPage(),
     MessagesPage(),
-    MatchesPage(),
-    ProfilePage(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -31,14 +32,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void logOut() {
-    FirebaseAuth.instance.signOut();
+  void logOut() async {
+    final authServices = AuthServices();
+    await authServices.signOut();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.unimatchSemiBlack,
+      backgroundColor: MyColors.unimatchBlack,
       appBar: AppBar(
         shadowColor: MyColors.unimatchSemiBlack,
         centerTitle: true,
