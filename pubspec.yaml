@@ -74,6 +74,7 @@ flutter:
     - assets/Icons/chat&home.riv
     - assets/Icons/profile.riv
     - assets/Icons/heartjump.riv
+    - assets/Icons/ProfileIcon.png
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
