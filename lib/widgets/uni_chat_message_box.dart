@@ -23,7 +23,7 @@ class UniChatMessageBox extends StatelessWidget {
       return Stack(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 12, left: 12),
+            margin: const EdgeInsets.only(bottom: 12, left: 12),
             padding: const EdgeInsets.all(8),
             decoration: const BoxDecoration(
               color: MyColors.unimatchRed,
@@ -57,7 +57,7 @@ class UniChatMessageBox extends StatelessWidget {
       return Stack(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 12, right: 12),
+            margin: const EdgeInsets.only(bottom: 12, right: 12),
             padding: const EdgeInsets.all(8),
             decoration: const BoxDecoration(
               color: MyColors.unimatchSemiBlack,

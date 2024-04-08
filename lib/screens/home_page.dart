@@ -20,9 +20,8 @@ class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    const Text('Make a match', style: TextStyle(color: MyColors.unimatchWhite)),
-    const MatchesPage(),
     MessagesPage(),
+    const MatchesPage(),
     const ProfilePage(),
   ];
 
