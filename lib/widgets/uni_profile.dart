@@ -5,8 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:unimatch/services/cloud/cloud_services.dart'; // Importe a classe StoreData
 import 'package:unimatch/styles/global.dart';
 
-class UniProfile extends StatefulWidget {
-  UniProfile({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class UniProfile extends StatelessWidget {
+  UniProfile({super.key});
 
   @override
   _UniProfileState createState() => _UniProfileState();
@@ -41,7 +42,7 @@ class _UniProfileState extends State<UniProfile> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Stack(
         children: [
           Container(
@@ -52,7 +53,7 @@ class _UniProfileState extends State<UniProfile> {
                   color: MyColors.unimatchRed.withOpacity(0.5),
                   spreadRadius: 3,
                   blurRadius: 10,
-                  offset: Offset(0, 1),
+                  offset: const Offset(0, 1),
                 ),
               ],
             ),
