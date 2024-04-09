@@ -2,20 +2,41 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:unimatch/services/cloud/cloud_services.dart';
+import 'package:unimatch/services/cloud/cloud_services.dart'; // Importe a classe StoreData
 import 'package:unimatch/styles/global.dart';
 
 // ignore: must_be_immutable
 class UniProfile extends StatelessWidget {
   UniProfile({super.key});
 
+  @override
+  _UniProfileState createState() => _UniProfileState();
+}
+
+class _UniProfileState extends State<UniProfile> {
   CloudServices cloudServices = CloudServices();
+  StoreData storeData = StoreData();
+  String? _imageUrl;
 
   Uint8List? _image;
 
-  void selectImage() async{
+  Future<void> selectImage(BuildContext context) async {
     Uint8List img = await cloudServices.pickImage(ImageSource.gallery);
-    _image = img;
+    setState((){
+      _image = img;
+    });
+
+    if (_image != null) {
+      String response = await storeData.saveImage(
+        file: _image!,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(response == 'success'
+            ? 'Informações salvas com sucesso!'
+            : 'Erro ao salvar informações: $response'),
+      ));
+    }
   }
 
   @override
@@ -36,25 +57,29 @@ class UniProfile extends StatelessWidget {
                 ),
               ],
             ),
-            child: _image != null ?
-            CircleAvatar(
-                radius: 64,
-                backgroundColor: MyColors.unimatchSemiBlack,
-                backgroundImage: MemoryImage(_image!),
-            )
-            : const CircleAvatar(
-              radius: 64,
-              backgroundImage: AssetImage('assets/Icons/ProfileIcon.png'),
-              backgroundColor: MyColors.unimatchSemiBlack,
-            ),
+            child: _image != null
+                ? CircleAvatar(
+                    radius: 64,
+                    backgroundColor: MyColors.unimatchSemiBlack,
+                    backgroundImage: NetworkImage(_imageUrl!),
+                  )
+                : const CircleAvatar(
+                    radius: 64,
+                    backgroundImage:
+                        AssetImage('assets/Icons/ProfileIcon.png'),
+                    backgroundColor: MyColors.unimatchSemiBlack,
+                  ),
           ),
           Positioned(
             bottom: 0,
             right: 0,
             child: IconButton(
-              onPressed: selectImage,
-              icon: Icon(Icons.photo_camera_rounded, size: 30, color: MyColors.unimatchWhite.withOpacity(0.8),),
-            ),
+                onPressed: () => selectImage(context),
+                icon: Icon(
+                  Icons.photo_camera_rounded,
+                  size: 30,
+                  color: MyColors.unimatchWhite.withOpacity(0.8),
+                )),
           ),
         ],
       ),

@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
         shadowColor: MyColors.unimatchSemiBlack,
         centerTitle: true,
         backgroundColor: MyColors.unimatchBlack,
+        elevation: 1,
         actions: [
           IconButton(
             icon: const Icon(Icons.favorite_border),
