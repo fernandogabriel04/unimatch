@@ -9,7 +9,12 @@ import 'package:unimatch/styles/global.dart';
 
 // ignore: must_be_immutable
 class UniProfile extends StatefulWidget {
-  const UniProfile({super.key});
+  final String? photoURL;
+
+  const UniProfile({
+    super.key,
+    required this.photoURL
+    });
 
   @override
   UniProfileState createState() => UniProfileState();
@@ -42,14 +47,6 @@ class UniProfileState extends State<UniProfile> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-    Provider.of<UserServices>(context, listen: false).saveUser();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -68,16 +65,16 @@ class UniProfileState extends State<UniProfile> {
                   ),
                 ],
               ),
-              child: context.watch<UserServices>().user.isNotEmpty? 
+              child: widget.photoURL != null ? 
                           CircleAvatar(
                             radius: 64,
                             backgroundColor: MyColors.unimatchSemiBlack,
-                            backgroundImage: NetworkImage(Provider.of<UserServices>(context).user.last!.photoURL!),
+                            backgroundImage: NetworkImage(widget.photoURL!),
                           ) : 
                           const CircleAvatar(
                             radius: 64,
                             backgroundColor: MyColors.unimatchSemiBlack,
-                            child: CircularProgressIndicator(color: MyColors.unimatchWhite,),
+                            backgroundImage: AssetImage("assets/Icons/ProfileIcon.png"),
                           )
               ),
             Positioned(
