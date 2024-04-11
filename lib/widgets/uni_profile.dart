@@ -25,7 +25,7 @@ class UniProfileState extends State<UniProfile> {
 
   Uint8List? _image;
 
-  Future<void> selectImage(BuildContext context) async {
+  Future<void> updateProfileImage(BuildContext context) async {
     Uint8List img = await cloudServices.pickImage(ImageSource.gallery);
     setState((){
       _image = img;
@@ -34,6 +34,7 @@ class UniProfileState extends State<UniProfile> {
     if (_image != null) {
       try {
       await cloudServices.saveImage(_image!);
+      await cloudServices.deleteImageFromStorage(widget.photoURL!);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Informações salvas com sucesso!'),
       ));
@@ -82,7 +83,7 @@ class UniProfileState extends State<UniProfile> {
               right: 0,
               child: IconButton(
                   onPressed: () async { 
-                    await selectImage(context);
+                    await updateProfileImage(context);
                     Provider.of<UserServices>(context, listen: false).saveUser();
                     },
                   icon: Icon(

@@ -21,7 +21,7 @@ class CloudServices{
   }
 
   Future<String> uploadImageToStorage(String childName, Uint8List file) async{
-  Reference ref = _storage.ref().child('user_images/$childName');
+  Reference ref = _storage.ref().child('user_images/${_authServices.getCurrentUser()!.uid}/$childName');
 
   UploadTask uploadTask = ref.putData(file);
     TaskSnapshot snapshot = await uploadTask;
@@ -36,6 +36,15 @@ class CloudServices{
       await currentUser!.updatePhotoURL(imageUrl);
       return imageUrl;
     } catch(err){
+      throw Exception(err);
+    }
+  }
+
+  Future<void> deleteImageFromStorage(String photoURL) async {
+    Reference ref = _storage.refFromURL(photoURL);
+    try {
+      await ref.delete();
+    } catch (err) {
       throw Exception(err);
     }
   }
