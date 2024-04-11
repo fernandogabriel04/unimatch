@@ -26,7 +26,6 @@ class CloudServices{
   UploadTask uploadTask = ref.putData(file);
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
-    print(downloadUrl);
     return downloadUrl;
   }
 
@@ -34,7 +33,7 @@ class CloudServices{
     User? currentUser = _authServices.getCurrentUser();
     try{
       String imageUrl = await uploadImageToStorage('ProfileImage - ${Timestamp.now().microsecondsSinceEpoch}', file);
-      currentUser!.updatePhotoURL(imageUrl);
+      await currentUser!.updatePhotoURL(imageUrl);
       return imageUrl;
     } catch(err){
       throw Exception(err);

@@ -29,11 +29,12 @@ class UniProfileState extends State<UniProfile> {
     if (_image != null) {
       try {
       await cloudServices.saveImage(_image!);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Informações salvas com sucesso!'),
       ));
       } catch (err) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        print(err);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Erro ao salvar informações'),
       ));
       }
@@ -52,8 +53,7 @@ class UniProfileState extends State<UniProfile> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Consumer<UserServices>(
-        builder: (context, userServices, child) =>
+      child: 
         Stack(
           children: [
             Container(
@@ -68,29 +68,17 @@ class UniProfileState extends State<UniProfile> {
                   ),
                 ],
               ),
-              child: userServices.user.isNotEmpty? 
+              child: context.watch<UserServices>().user.isNotEmpty? 
                           CircleAvatar(
                             radius: 64,
                             backgroundColor: MyColors.unimatchSemiBlack,
-                            backgroundImage: NetworkImage(userServices.user.last!.photoURL!),
+                            backgroundImage: NetworkImage(Provider.of<UserServices>(context).user.last!.photoURL!),
                           ) : 
                           const CircleAvatar(
                             radius: 64,
                             backgroundColor: MyColors.unimatchSemiBlack,
                             child: CircularProgressIndicator(color: MyColors.unimatchWhite,),
                           )
-              // if (userServices.user.isNotEmpty) {
-              //           return CircleAvatar(
-              //               radius: 64,
-              //               backgroundColor: MyColors.unimatchSemiBlack,
-              //               backgroundImage: NetworkImage(userServices.user.last!.photoURL!),
-              //             );
-              //         } 
-              //     return const CircleAvatar(
-              //       radius: 64,
-              //       backgroundColor: MyColors.unimatchSemiBlack,
-              //       child: CircularProgressIndicator(color: MyColors.unimatchWhite,),
-              //     );
               ),
             Positioned(
               bottom: 0,
@@ -108,7 +96,6 @@ class UniProfileState extends State<UniProfile> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

@@ -12,10 +12,9 @@ class UserServices extends ChangeNotifier {
   UnmodifiableListView<User?> get user => UnmodifiableListView(_user);
 
   void saveUser(){
-    User? currentUser = authServices.getCurrentUser();
-    if (currentUser == null) notifyListeners();
     if (_user.isNotEmpty) _user.clear();
-    _user.add(currentUser);
+    _user.add(authServices.getCurrentUser());
     notifyListeners();
+    debugPrint(user.toString());
   }
 }
