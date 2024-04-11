@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:unimatch/services/cloud/cloud_services.dart'; 
-import 'package:unimatch/services/user/user_services.dart';
+import 'package:unimatch/services/user/user_services.dart'; 
 import 'package:unimatch/styles/global.dart';
 
 // ignore: must_be_immutable
