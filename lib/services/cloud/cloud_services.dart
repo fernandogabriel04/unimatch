@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:unimatch/services/auth/auth_services.dart';
 
 
 final FirebaseStorage _storage = FirebaseStorage.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final AuthServices _authServices = AuthServices();
 
 class CloudServices{
   pickImage(ImageSource source) async{
@@ -16,31 +19,24 @@ class CloudServices{
     }
     print('No Images Selected');
   }
-}
 
-class StoreData{
-Future<String> uploadImageToStorage(String childName, Uint8List file) async{
+  Future<String> uploadImageToStorage(String childName, Uint8List file) async{
   Reference ref = _storage.ref().child('user_images/$childName');
+
   UploadTask uploadTask = ref.putData(file);
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
   }
-  Future<String> saveImage({
-    required Uint8List file,
-  }) async {
-    String resp = "Some Error Occurred";
-    try{
-      String imageUrl = await uploadImageToStorage('ProfileImage', file);
-      await _firestore.collection('user_images').add({
-        'imageLink' : imageUrl,
 
-      });
-      resp = 'success';
+  Future<String> saveImage(Uint8List file) async {
+    User? currentUser = _authServices.getCurrentUser();
+    try{
+      String imageUrl = await uploadImageToStorage('ProfileImage - ${Timestamp.now().microsecondsSinceEpoch}', file);
+      await currentUser!.updatePhotoURL(imageUrl);
+      return imageUrl;
+    } catch(err){
+      throw Exception(err);
     }
-      catch(err){
-        resp = err.toString();
-      }
-      return resp;
   }
 }

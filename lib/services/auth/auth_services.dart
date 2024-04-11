@@ -4,7 +4,7 @@ import 'package:unimatch/helpers/error_messages.dart';
 import 'package:unimatch/helpers/toasts.dart';
 
 class AuthServices {
-  final FirebaseAuth _auth = FirebaseAuth.instance; //instance of FirebaseAuth
+  final FirebaseAuth _auth = FirebaseAuth.instance; //instance of FirebaseAuth //instance of user services
   Map<String, String> errorMessages = ErrorMessages().errorMessages; //instance of app error messages 
   final Toasts toast = Toasts(); //instance for Toasts helper class
   FToast fToast = FToast(); //instance for flutter toast class

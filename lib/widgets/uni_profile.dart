@@ -2,21 +2,21 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:unimatch/services/cloud/cloud_services.dart'; // Importe a classe StoreData
+import 'package:provider/provider.dart';
+import 'package:unimatch/services/cloud/cloud_services.dart'; 
+import 'package:unimatch/services/user/user_services.dart';
 import 'package:unimatch/styles/global.dart';
 
 // ignore: must_be_immutable
-class UniProfile extends StatelessWidget {
-  UniProfile({super.key});
+class UniProfile extends StatefulWidget {
+  const UniProfile({super.key});
 
   @override
-  _UniProfileState createState() => _UniProfileState();
+  UniProfileState createState() => UniProfileState();
 }
 
-class _UniProfileState extends State<UniProfile> {
+class UniProfileState extends State<UniProfile> {
   CloudServices cloudServices = CloudServices();
-  StoreData storeData = StoreData();
-  String? _imageUrl;
 
   Uint8List? _image;
 
@@ -27,62 +27,75 @@ class _UniProfileState extends State<UniProfile> {
     });
 
     if (_image != null) {
-      String response = await storeData.saveImage(
-        file: _image!,
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(response == 'success'
-            ? 'Informações salvas com sucesso!'
-            : 'Erro ao salvar informações: $response'),
+      try {
+      await cloudServices.saveImage(_image!);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Informações salvas com sucesso!'),
       ));
-    }
+      } catch (err) {
+        print(err);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Erro ao salvar informações'),
+      ));
+      }
+    } 
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    Provider.of<UserServices>(context, listen: false).saveUser();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: MyColors.unimatchRed.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 10,
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
-            child: _image != null
-                ? CircleAvatar(
-                    radius: 64,
-                    backgroundColor: MyColors.unimatchSemiBlack,
-                    backgroundImage: NetworkImage(_imageUrl!),
-                  )
-                : const CircleAvatar(
-                    radius: 64,
-                    backgroundImage:
-                        AssetImage('assets/Icons/ProfileIcon.png'),
-                    backgroundColor: MyColors.unimatchSemiBlack,
+      child: 
+        Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: MyColors.unimatchRed.withOpacity(0.5),
+                    spreadRadius: 3,
+                    blurRadius: 10,
+                    offset: const Offset(0, 1),
                   ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: IconButton(
-                onPressed: () => selectImage(context),
-                icon: Icon(
-                  Icons.photo_camera_rounded,
-                  size: 30,
-                  color: MyColors.unimatchWhite.withOpacity(0.8),
-                )),
-          ),
-        ],
-      ),
-    );
+                ],
+              ),
+              child: context.watch<UserServices>().user.isNotEmpty? 
+                          CircleAvatar(
+                            radius: 64,
+                            backgroundColor: MyColors.unimatchSemiBlack,
+                            backgroundImage: NetworkImage(Provider.of<UserServices>(context).user.last!.photoURL!),
+                          ) : 
+                          const CircleAvatar(
+                            radius: 64,
+                            backgroundColor: MyColors.unimatchSemiBlack,
+                            child: CircularProgressIndicator(color: MyColors.unimatchWhite,),
+                          )
+              ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: IconButton(
+                  onPressed: () async { 
+                    await selectImage(context);
+                    Provider.of<UserServices>(context, listen: false).saveUser();
+                    },
+                  icon: Icon(
+                    Icons.photo_camera_rounded,
+                    size: 30,
+                    color: MyColors.unimatchWhite.withOpacity(0.8),
+                  )),
+            ),
+          ],
+        ),
+      );
   }
 }
