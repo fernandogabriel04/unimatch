@@ -50,7 +50,7 @@ class _RegisterState extends State<Register> {
   
   void saveUserInfo(UserCredential userCredential, String name) {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    _firestore.collection("Users").doc(userCredential.user!.uid).set(
+    _firestore.collection("users").doc(userCredential.user!.uid).set(
       {
         'uid': userCredential.user!.uid,
         'email': userCredential.user!.email,
