@@ -54,6 +54,7 @@ class _RegisterState extends State<Register> {
       {
         'uid': userCredential.user!.uid,
         'email': userCredential.user!.email,
+        'name': name
       }
     );
     userCredential.user!.updateDisplayName(name);

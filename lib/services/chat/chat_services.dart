@@ -8,9 +8,10 @@ class ChatServices {
 
   //get user stream
   Stream<List<Map<String, dynamic>>> getUserStream() {
-    return _firestore.collection("Users").snapshots().map((snapshot) {
+    return _firestore.collection("users").snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
         final user = doc.data();
+        print(user);
         return user;
       }).toList();
     });
