@@ -45,6 +45,13 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: MyColors.unimatchBlack,
         elevation: 1,
+        leading: IconButton(
+            icon: const Icon(Icons.logout),
+            color: MyColors.unimatchRed,
+            onPressed: () {
+              logOut();
+            },
+          ),
         actions: [
           IconButton(
             icon: const Icon(Icons.favorite_border),
@@ -53,13 +60,7 @@ class _HomePageState extends State<HomePage> {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('This is a notification')));
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            color: MyColors.unimatchRed,
-            onPressed: () {
-              logOut();
-            },
-          ),
+          
         ],
         title: SvgPicture.asset(
           "./assets/Images/unimatch-logo.svg",
