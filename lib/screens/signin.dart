@@ -1,9 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:unimatch/helpers/error_messages.dart';
 import 'package:unimatch/helpers/toasts.dart';
+import 'package:unimatch/screens/forgot_password.dart';
 import 'package:unimatch/screens/register.dart';
 import 'package:unimatch/services/auth/auth_services.dart';
 import 'package:unimatch/styles/global.dart';
@@ -125,6 +127,31 @@ class _SignInState extends State<SignIn> {
                                     hintText: "Senha",
                                     controller: passTextFieldController,
                                     hideText: true)),
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(
+                                          builder: (context) {
+                                            return ForgotPasswordPage();
+                                          },
+
+                                        ));
+                                      },
+                                      child: const Text(
+                                        "Esqueceu sua senha?",
+                                        style: TextStyle(
+                                          color: MyColors.unimatchRed,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        ),
+                                    ),
+                                  ]
+                                ),
+                            ),
                             UniButton(
                                 btnText: "Entrar",
                                 onPress: () =>
